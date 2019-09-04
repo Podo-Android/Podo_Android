@@ -8,15 +8,68 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="97dp"
-    >
-
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="28.3dp"
+            android:layout_height="8.2dp"
+            android:background="@drawable/back"
+            android:layout_marginTop="31.7dp"
+            android:layout_marginLeft="25.5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="병원위치"
+            android:layout_marginTop="29.1dp"
+            android:layout_marginLeft="13.4dp"
+            android:fontFamily="@font/nanum_square_regular"
+            android:includeFontPadding="false"
+            />
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/ic_hamburger"
+            android:layout_marginTop="23.9dp"
+            android:layout_marginLeft="220dp"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/edge_big_round">
-
+        android:orientation="vertical"
+        android:background="@drawable/edge_big_round"
+        >
+        <LinearLayout
+            android:layout_width="277.8dp"
+            android:layout_height="26.3dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="36.4dp"
+            android:orientation="horizontal"
+            android:background="@drawable/edge_searchbar"
+            >
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:background="@drawable/map_exit"
+                android:layout_marginLeft="5.1dp"
+                android:layout_gravity="center_vertical"
+                />
+            <EditText
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5.1dp"
+                android:background="@android:color/transparent"
+                />
+            <ImageView
+                android:layout_width="19dp"
+                android:layout_height="11dp"
+                android:background="@drawable/ic_search"
+                android:layout_marginLeft="5.1dp"
+                android:layout_gravity="center_vertical"
+                />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
