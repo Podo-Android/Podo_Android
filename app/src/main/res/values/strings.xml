@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">PodoAndroid</string>
+    <string name="app_name">Podo</string>
     <string name="text1">hi</string>
+    <string name="nav_dog_name">이름 : 뽀삐</string>
+    <string name="nav_hospital_location">병원 위치</string>
+    <string name="nav_recommend">사료 추천</string>
+    <string name="nav_home">홈</string>
+    <string name="nav_logout">Logout</string>
 </resources>

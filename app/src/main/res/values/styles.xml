@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -7,5 +7,27 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!-- 텍스트 스타일 -->
+    <style name="regularNavyStyle">
+        <item name="android:textColor">@color/colorNavy</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_regular</item>
+    </style>
+
+    <style name="lightNavyStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorNavy</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_light</item>
+    </style>
+
+
+    <style name="regularWhiteStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_regular</item>
+    </style>
+
 
 </resources>
