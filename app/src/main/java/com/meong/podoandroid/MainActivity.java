@@ -3,10 +3,12 @@ package com.meong.podoandroid;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +23,39 @@ public class MainActivity extends AppCompatActivity {
 
         setDrawer();
         setOnBtnClickListener();
+        onDrawerItemClickListener();
+    }
 
+    private void onDrawerItemClickListener() {
+        // 홈이 눌렸을 때
+        TextView txtHome = (TextView) findViewById(R.id.txt_nav_main_home);
+        txtHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+        //병원 위치가 눌렸을 때
+        TextView txtHospital = findViewById(R.id.txt_nav_main_hospital);
+        txtHospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        //사료 추천이 눌렸을 때
+        TextView txtRecommend = findViewById(R.id.txt_nav_main_recommend);
+        txtRecommend.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setDrawer() {

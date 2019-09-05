@@ -37,7 +37,7 @@
 
     <!-- 병원 위치 -->
     <TextView
-        android:id="@+id/txt_nav_header_main_home"
+        android:id="@+id/txt_nav_main_home"
         style="@style/lightNavyStyle"
         android:layout_marginLeft="22dp"
         android:layout_marginTop="83.8dp"
@@ -53,7 +53,7 @@
 
     <!-- 병원 위치 -->
     <TextView
-        android:id="@+id/txt_nav_header_main_hospital"
+        android:id="@+id/txt_nav_main_hospital"
         style="@style/lightNavyStyle"
         android:layout_marginLeft="22dp"
         android:layout_marginTop="56dp"
@@ -69,7 +69,7 @@
 
     <!-- 사료 추천 -->
     <TextView
-        android:id="@+id/txt_nav_header_main_recommend"
+        android:id="@+id/txt_nav_main_recommend"
         style="@style/lightNavyStyle"
         android:layout_marginLeft="22dp"
         android:layout_marginTop="56dp"
