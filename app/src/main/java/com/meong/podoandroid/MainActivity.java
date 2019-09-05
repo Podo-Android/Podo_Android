@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         onDrawerItemClickListener();
     }
 
+    //깃헙 소스트리 왜 안되냐!!!!!
     private void onDrawerItemClickListener() {
         // 홈이 눌렸을 때
         TextView txtHome = (TextView) findViewById(R.id.txt_nav_main_home);
