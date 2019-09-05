@@ -44,13 +44,16 @@ public class MainActivity extends AppCompatActivity {
         txtHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                startActivity(intent);
 
+                finish();
             }
         });
 
         //사료 추천이 눌렸을 때
         TextView txtRecommend = findViewById(R.id.txt_nav_main_recommend);
-        txtRecommend.setOnClickListener(new View.OnClickListener(){
+        txtRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
