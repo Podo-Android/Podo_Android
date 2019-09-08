@@ -42,4 +42,8 @@ dependencies {
     // image loading
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
+    // recylcer view snapHelper
+    // AndroidX
+    implementation 'com.github.rubensousa:gravitysnaphelper:2.0'
 }
