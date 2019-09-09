@@ -7,10 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,6 +27,8 @@ public class FeedRecommendActivity extends AppCompatActivity {
     private Context mContext;
     RecyclerView mRecyclerview;
     SnapHelper snapHelper;
+    DatabaseHelper dbhelper;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,10 @@ public class FeedRecommendActivity extends AppCompatActivity {
 
         mArrayList= new ArrayList<>();
         snapHelper= new LinearSnapHelper();
+        dbhelper= new DatabaseHelper(mContext);
+        database=dbhelper.getWritableDatabase();
+
+
 
     feed_btn1=(Button)findViewById(R.id.feed_btn1);
     feed_btn2=(Button)findViewById(R.id.feed_btn2);
@@ -43,11 +53,26 @@ public class FeedRecommendActivity extends AppCompatActivity {
     feed_btn1.setSelected(true);
     feed_btn1.setTextColor(getApplicationContext().getResources().getColor(R.color.colorGrayWhite));
 
-    mArrayList.add(new FeedData("사료1","https://img.theqoo.net/img/xRxVm.jpg","맛나요"));
-    mArrayList.add(new FeedData("사료2","https://img.theqoo.net/img/Ixosq.jpg","굿"));
-    mArrayList.add(new FeedData("사료3","https://img.theqoo.net/img/Ixosq.jpg","꺅"));
-    mArrayList.add(new FeedData("사료4","https://img.theqoo.net/img/Ixosq.jpg","맛나요"));
-    mArrayList.add(new FeedData("사료5","https://img.theqoo.net/img/Ixosq.jpg","맛나요"));
+    insertData("사료1","https://img.theqoo.net/img/xRxVm.jpg","맛나요");
+    insertData("사료3","https://img.theqoo.net/img/xRxVm.jpg","최고");
+
+
+    String sql_select = "select title, url, content from feed";
+    Cursor cursor=database.rawQuery(sql_select,null );
+
+    for(int i=0; i<cursor.getCount(); i++) {
+        cursor.moveToNext();
+        String title= cursor.getString(0);
+        String url=cursor.getString(1);
+        String content=cursor.getString(2);
+
+        mArrayList.add(new FeedData(title, url, content));
+//    mArrayList.add(new FeedData("사료2","https://img.theqoo.net/img/Ixosq.jpg","굿"));
+//    mArrayList.add(new FeedData("사료3","https://img.theqoo.net/img/Ixosq.jpg","꺅"));
+//    mArrayList.add(new FeedData("사료4","https://img.theqoo.net/img/Ixosq.jpg","맛나요"));
+//    mArrayList.add(new FeedData("사료5","https://img.theqoo.net/img/Ixosq.jpg","맛나요"));
+    }
+    cursor.close();
 
     mLayoutManager = new LinearLayoutManager(this, LinearLayout.HORIZONTAL,false);
     mRecyclerview.setLayoutManager(mLayoutManager);
@@ -99,6 +124,21 @@ public class FeedRecommendActivity extends AppCompatActivity {
        feed_btn2.setTextColor(getApplicationContext().getResources().getColor(R.color.colorGray));
        feed_btn3.setSelected(false);
        feed_btn3.setTextColor(getApplicationContext().getResources().getColor(R.color.colorGray));
+
+    }
+
+
+
+    public void insertData(String title, String url, String content) {
+        Log.e("msg", "inserData");
+
+        if(database!= null) {
+            String sql = "insert into feed(title, url, content) values (?, ?, ?)";
+            Object[] params = {title, url, content};
+            database.execSQL(sql, params);
+        } else{
+            Log.e("msg","데이터 베이스를 오픈하세요");
+        }
 
     }
 
