@@ -14,42 +14,79 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
-        <RelativeLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="68dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="40dp"
-                android:background="@color/colorPurple" />
-
-            <ImageView
-                android:id="@+id/img_main_act_menu"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="40dp"
-                android:background="@color/colorPurple" />
-
-            <!-- 하늘색 배경 -->
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="585.2dp"
-                android:background="@drawable/background_border_sky" />
-        </RelativeLayout>
+                android:layout_height="wrap_content">
 
+                <ImageView
+                    android:layout_width="68dp"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/colorPurple" />
 
+                <ImageView
+                    android:id="@+id/img_main_act_menu"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/colorPurple" />
+
+                <!-- 하늘색 배경 -->
+                <LinearLayout
+                    android:layout_below="@+id/img_main_act_menu"
+                    android:layout_marginTop="78dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginLeft="32dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+                        <ImageView
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/background_border_sky"/>
+                        <TextView
+                            style="@style/regularGrayStyle"
+                            android:layout_marginLeft="13dp"
+                            android:textSize="12sp"
+                            android:text="다리 이상 여부" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_marginTop="24dp"
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:background="@color/colorPurple"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="585.2dp"
+                    android:background="@drawable/background_border_sky" />
+            </RelativeLayout>
+        </ScrollView>
+<!--
         <include
-            layout="@layout/nav_header_main"
             android:id="@+id/nav_view"
+            layout="@layout/nav_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:fitsSystemWindows="true" />
+            android:fitsSystemWindows="true" />-->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
