@@ -14,78 +14,78 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <ImageView
-                    android:layout_width="68dp"
-                    android:layout_height="34dp"
-                    android:layout_marginLeft="32dp"
-                    android:layout_marginTop="40dp"
-                    android:background="@color/colorPurple" />
+                    android:layout_width="83dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="33.5dp"
+                    android:layout_marginTop="37.8dp"
+                    android:background="@drawable/main_logo_text" />
 
                 <ImageView
+                    android:layout_alignParentTop="true"
                     android:id="@+id/img_main_act_menu"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="40dp"
-                    android:background="@color/colorPurple" />
+                    android:background="@drawable/ic_hamburger" />
 
+                <ScrollView
+                    android:layout_below="@+id/img_main_act_menu"
+                    android:layout_marginTop="31.5dp"
+                    android:background="@drawable/background_border_sky"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <!-- 하늘색 배경 -->
                 <LinearLayout
-                    android:layout_below="@+id/img_main_act_menu"
-                    android:layout_marginTop="78dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_marginLeft="32dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
-                        <ImageView
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:background="@drawable/background_border_sky"/>
-                        <TextView
-                            style="@style/regularGrayStyle"
-                            android:layout_marginLeft="13dp"
-                            android:textSize="12sp"
-                            android:text="다리 이상 여부" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_marginTop="24dp"
-                        android:layout_marginHorizontal="32dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="240dp"
-                        android:background="@color/colorPurple"/>
-
-                </LinearLayout>
-
-                <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="585.2dp"
-                    android:background="@drawable/background_border_sky" />
+                    android:orientation="vertical">
+
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="horizontal">
+
+                     <ImageView
+                         android:layout_width="15dp"
+                         android:layout_height="8dp"
+                         android:layout_gravity="center_vertical"
+                         android:layout_marginLeft="33.6dp"
+                         android:layout_marginTop="40.6dp"
+                         android:background="@drawable/ic_part" />
+
+                        <TextView
+                            style="@style/regularGrayStyle"
+                            android:layout_marginLeft="5.4dp"
+                            android:text="다리 이상 여부"
+                            android:layout_marginTop="41.7dp"
+                            android:textSize="12sp" />
+
+                 </LinearLayout>
+                    <ImageView
+                        android:layout_marginTop="22.3dp"
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_width="298dp"
+                        android:layout_height="331dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/main_image_background"/>
+
+                </LinearLayout>
+                </ScrollView>
             </RelativeLayout>
-        </ScrollView>
-        <include
-            android:id="@+id/nav_view"
-            layout="@layout/nav_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:fitsSystemWindows="true" />
+<!--        <include-->
+<!--            android:id="@+id/nav_view"-->
+<!--            layout="@layout/nav_main"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="left"-->
+<!--            android:fitsSystemWindows="true" />-->
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
