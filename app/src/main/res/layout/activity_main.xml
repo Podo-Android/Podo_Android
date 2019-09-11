@@ -11,11 +11,8 @@
         android:id="@+id/drawer_main_act"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:fitsSystemWindows="true"
-        tools:openDrawer="start"
-        android:layout_alignParentLeft="true">
+        tools:openDrawer="start">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -26,107 +23,52 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="83dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="33.5dp"
-                    android:layout_marginTop="37.8dp"
-                    android:background="@drawable/main_logo_text" />
+                    android:layout_width="68dp"
+                    android:layout_height="34dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/colorPurple" />
 
                 <ImageView
                     android:id="@+id/img_main_act_menu"
-                    android:layout_width="26dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="38.5dp"
-                    android:layout_marginRight="37dp"
-                    android:background="@drawable/ic_hamburger" />
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="@color/colorPurple" />
 
                 <!-- 하늘색 배경 -->
                 <LinearLayout
+                    android:layout_below="@+id/img_main_act_menu"
+                    android:layout_marginTop="78dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_main_act_menu"
-                    android:layout_marginTop="31.5dp"
-                    android:layout_marginBottom="172dp"
-                    android:background="@drawable/background_border_sky"
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_marginLeft="32dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="33.6dp"
-                        android:layout_marginTop="40.6dp"
-                        android:orientation="horizontal">
-
+                        android:orientation="horizontal" >
                         <ImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
                             android:layout_gravity="center_vertical"
-                            android:background="@drawable/ic_part" />
-
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/background_border_sky"/>
                         <TextView
                             style="@style/regularGrayStyle"
-                            android:layout_height="13dp"
                             android:layout_marginLeft="13dp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:text="다리 이상 여부"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:text="다리 이상 여부" />
                     </LinearLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <ImageView
+                        android:layout_marginTop="24dp"
+                        android:layout_marginHorizontal="32dp"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="240dp"
-                            android:layout_marginHorizontal="32dp"
-                            android:layout_marginTop="22.3dp"
-                            android:background="@drawable/main_image_background"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="1.0" />
-
-                        <ImageView
-                            android:layout_width="37dp"
-                            android:layout_height="61dp"
-                            android:layout_marginStart="35dp"
-                            android:layout_marginLeft="35dp"
-                            android:layout_marginTop="79dp"
-                            android:background="@drawable/main_image_rightfrontleg"
-                            app:layout_constraintStart_toStartOf="@+id/imageView5"
-                            app:layout_constraintTop_toTopOf="@+id/imageView5" />
-
-                        <ImageView
-                            android:layout_width="51dp"
-                            android:layout_height="80dp"
-                            android:layout_marginTop="64dp"
-                            android:layout_marginEnd="25dp"
-                            android:layout_marginRight="25dp"
-                            android:background="@drawable/main_image_rightbackleg"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView5"
-                            app:layout_constraintTop_toTopOf="@+id/imageView5" />
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="180dp"
-                            android:layout_height="146dp"
-                            android:layout_marginStart="52dp"
-                            android:layout_marginLeft="52dp"
-                            android:layout_marginTop="40dp"
-                            android:layout_marginEnd="52dp"
-                            android:layout_marginRight="52dp"
-                            android:background="@drawable/main_image"
-                            app:layout_constraintEnd_toEndOf="@+id/imageView4"
-                            app:layout_constraintHorizontal_bias="0.492"
-                            app:layout_constraintStart_toStartOf="@+id/imageView4"
-                            app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_height="240dp"
+                        android:background="@color/colorPurple"/>
 
                 </LinearLayout>
 
@@ -137,14 +79,13 @@
                     android:background="@drawable/background_border_sky" />
             </RelativeLayout>
         </ScrollView>
-        <!--
         <include
             android:id="@+id/nav_view"
             layout="@layout/nav_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:fitsSystemWindows="true" />-->
+            android:fitsSystemWindows="true" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

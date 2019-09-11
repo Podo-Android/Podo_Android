@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:background="#dee9ff"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_map_search_act"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="97dp"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="28.3dp"
+                    android:layout_height="8.2dp"
+                    android:background="@drawable/back"
+                    android:layout_marginTop="31.7dp"
+                    android:layout_marginLeft="25.5dp"
+                    />
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="병원위치"
+                    android:layout_marginTop="29.1dp"
+                    android:layout_marginLeft="13.4dp"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:includeFontPadding="false"
+                    />
+
+                <ImageView
+                    android:id="@+id/map_hamburger"
+                    android:layout_width="26dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginTop="23.9dp"
+                    android:background="@drawable/ic_hamburger" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edge_big_round">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginRight="40dp"
+                    android:src="@drawable/ic_search"
+                    android:layout_alignParentRight="true"/>
+                <fragment
+                    android:id="@+id/fragment_map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="94dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="30dp"
+                    />
+
+                <ImageView
+                    android:id="@+id/img_map_act_location"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginBottom="18dp"
+                    android:src="@drawable/ic_map"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+<!--
+        <include
+            android:id="@+id/nav_view"
+            layout="@layout/nav_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:fitsSystemWindows="true"
+            />-->
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>
