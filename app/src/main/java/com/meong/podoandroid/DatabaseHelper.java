@@ -8,7 +8,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
-        super(context, "feed.db",null,1);
+        super(context, "feed.db",null,4);
 
     }
     @Override
@@ -30,7 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_leg");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_calory");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS feed_wellbing");
         onCreate(sqLiteDatabase);
 
     }
