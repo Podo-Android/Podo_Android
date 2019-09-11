@@ -11,4 +11,7 @@
     <color name="colorPurple">#d2addb</color>
     <color name="colorNavy">#4b6277</color>
     <color name="colorButtonNavy">#455668</color>
+    <color name="buttonpress">#ff795d</color>
+    <color name="colorGrayWhite">#f5f5f5</color>
+    <color name="colorGray">#5e273a6d</color>
 </resources>
