@@ -48,6 +48,7 @@ import static com.google.android.gms.common.util.CollectionUtils.listOf;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String TAG = "MapActivity";
+
     private GoogleMap mMap;
     private LatLng currentPosition;
 
@@ -65,7 +66,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private TextView txtCurrentLocation;
 
-    DrawerLayout drawer;
+    private DrawerLayout drawer;
 
     private ImageView imgCurrentLocation;
     private ImageView imgSearchStore;
@@ -79,12 +80,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                Log.d(TAG,"onLocationResult");
+
                 if (locationResult == null) {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
                         currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
+
+                        setOnCurLocationClickListener(currentPosition);
 
                         Log.d(TAG, "onLocationResult : " + location.getLatitude() + "," + location.getLongitude());
                         txtCurrentLocation.setText(getGeocode(currentPosition));
@@ -94,59 +99,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         };
 
         getMap();
-        getPermission();
+        requestLocation();
+
         setDrawer();
-        setOnBtnClickListener();
         onDrawerItemClickListener();
+
+        setOnBtnClickListener();
     }
 
-    private void setDrawer() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_map_search_act);
-        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
+    private void setOnCurLocationClickListener(final LatLng currentPosition) {
 
-
-    private void onDrawerItemClickListener() {
-        // 홈이 눌렸을 때
-        TextView txtHome = (TextView) findViewById(R.id.txt_nav_main_home);
-        txtHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-
-                finish();
-            }
-        });
-
-    }
-
-    private void setOnBtnClickListener() {
         imgCurrentLocation = (ImageView) findViewById(R.id.img_map_act_location);
         imgCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getPermission();
-            }
-        });
-
-        imgSearchStore = (ImageView) findViewById(R.id.img_map_act_search);
-        imgSearchStore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
-                startActivityForResult(intent, 1004);
-            }
-        });
-
-        imgHamburger = (ImageView) findViewById(R.id.map_hamburger);
-        imgHamburger.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.LEFT);
+                focusToCurPosition(currentPosition);
             }
         });
     }
+
+    private void focusToCurPosition(LatLng currentPosition) {
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(currentPosition);
+
+        markerOptions.title("현재 위치");
+        markerOptions.snippet(getGeocode(currentPosition)+"");
+        mMap.addMarker(markerOptions);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(100));
+    }
+
+
+    private void getMap() {
+        Log.d(TAG,"getMap");
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_map);
+        mapFragment.getMapAsync(this);
+    }
+
 
     private void getPermission() {
         int hasFineLocationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -230,27 +223,65 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-
-    private void getMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_map);
-        mapFragment.getMapAsync(this);
+    private void setDrawer() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_map_search_act);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
+
+    private void onDrawerItemClickListener() {
+        // 홈이 눌렸을 때
+        TextView txtHome = (TextView) findViewById(R.id.txt_nav_main_home);
+        txtHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+    }
+
+    private void setOnBtnClickListener() {
+
+        imgSearchStore = (ImageView) findViewById(R.id.img_map_act_search);
+        imgSearchStore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                startActivityForResult(intent, 1004);
+            }
+        });
+
+        imgHamburger = (ImageView) findViewById(R.id.map_hamburger);
+        imgHamburger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+    }
+
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
+        Log.d(TAG,"onMapReady");
         mMap = googleMap;
+
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
         LatLng SEOUL = new LatLng(37.56, 126.97);
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(SEOUL);
 
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
+        markerOptions.title("아직 위치가 지정되지 않았습니다.");
+//        markerOptions.snippet("한국의 수도");
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(100));
     }
 
     @Override
