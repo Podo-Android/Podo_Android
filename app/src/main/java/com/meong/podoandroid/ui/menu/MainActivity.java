@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.R;
 
@@ -59,7 +60,10 @@ public class MainActivity extends AppCompatActivity {
         txtRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FeedRecommendActivity.class);
+                startActivity(intent);
 
+                finish();
             }
         });
     }

@@ -40,35 +40,37 @@
 
                 <!-- 하늘색 배경 -->
                 <LinearLayout
-                    android:layout_below="@+id/img_main_act_menu"
-                    android:layout_marginTop="78dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_main_act_menu"
+                    android:layout_marginTop="78dp"
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_marginLeft="32dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:layout_marginLeft="32dp"
+                        android:orientation="horizontal">
+
                         <ImageView
-                            android:layout_gravity="center_vertical"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:background="@drawable/background_border_sky"/>
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/background_border_sky" />
+
                         <TextView
                             style="@style/regularGrayStyle"
                             android:layout_marginLeft="13dp"
-                            android:textSize="12sp"
-                            android:text="다리 이상 여부" />
+                            android:text="다리 이상 여부"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_marginTop="24dp"
-                        android:layout_marginHorizontal="32dp"
                         android:layout_width="match_parent"
                         android:layout_height="240dp"
-                        android:background="@color/colorPurple"/>
+                        android:layout_marginHorizontal="32dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@color/colorPurple" />
 
                 </LinearLayout>
 
@@ -79,6 +81,7 @@
                     android:background="@drawable/background_border_sky" />
             </RelativeLayout>
         </ScrollView>
+
         <include
             android:id="@+id/nav_view"
             layout="@layout/nav_main"
