@@ -15,12 +15,12 @@
         android:roundIcon="@mipmap/ic_dog_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MapActivity">
+        <activity android:name=".ui.map.MapActivity">
         </activity>
-        <activity android:name=".MapSearchActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".FeedRecommendActivity">
+        <activity android:name=".ui.map.MapSearchActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
+        <activity android:name=".ui.menu.MainActivity"/>
+        <activity android:name=".ui.feed.FeedRecommendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
