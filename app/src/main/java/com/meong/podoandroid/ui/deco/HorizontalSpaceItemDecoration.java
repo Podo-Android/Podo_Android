@@ -1,4 +1,4 @@
-package com.meong.podoandroid;
+package com.meong.podoandroid.ui.deco;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package com.meong.podoandroid;
+package com.meong.podoandroid.ui.feed;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import com.meong.podoandroid.helper.DatabaseHelper;
+import com.meong.podoandroid.R;
+import com.meong.podoandroid.data.FeedData;
+import com.meong.podoandroid.ui.deco.HorizontalSpaceItemDecoration;
 
 import java.util.ArrayList;
 
@@ -22,7 +26,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
 
     Button feed_btn1, feed_btn2, feed_btn3;
     private ArrayList<FeedData> mArrayList;
-    private  FeedRecommendAdapter adapter;
+    private FeedRecommendAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Context mContext;
     RecyclerView mRecyclerview;
