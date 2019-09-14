@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -31,6 +32,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,6 +54,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private LatLng currentPosition;
+
+    private Circle mCircle;
+
+    private boolean circleflag = false;
 
     private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationClient;
@@ -79,7 +87,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                Log.d(TAG,"onLocationResult");
+                Log.d(TAG, "onLocationResult");
 
                 if (locationResult == null) {
                     return;
@@ -92,6 +100,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                         Log.d(TAG, "onLocationResult : " + location.getLatitude() + "," + location.getLongitude());
                         txtCurrentLocation.setText(getGeocode(currentPosition));
+                        focusToCurPosition(currentPosition);
                     }
                 }
             }
@@ -120,19 +129,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void focusToCurPosition(LatLng currentPosition) {
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentPosition);
+        markerOptions.position(currentPosition)
+                .title("현재 위치")
+                .snippet(getGeocode(currentPosition) + "")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_now));
 
-        markerOptions.title("현재 위치");
-        markerOptions.snippet(getGeocode(currentPosition)+"");
         mMap.addMarker(markerOptions);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(100));
+
+        txtCurrentLocation.setText(getGeocode(currentPosition));
+        
+        drawCircle(mMap, currentPosition);
+    }
+
+    private void drawCircle(GoogleMap googleMap, LatLng latlng) {
+        if (circleflag)
+            mCircle.remove();
+
+        CircleOptions circleOptions = new CircleOptions();
+
+        circleOptions.center(latlng)
+                .radius(1000.0)
+                .strokeColor(getResources().getColor(R.color.point_pink))
+                .fillColor(Color.parseColor("#4de1b2a3"))
+                .strokeWidth(1);
+
+        mCircle = googleMap.addCircle(circleOptions);
+        circleflag = true;
     }
 
 
     private void getMap() {
-        Log.d(TAG,"getMap");
+        Log.d(TAG, "getMap");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
@@ -265,7 +294,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        Log.d(TAG,"onMapReady");
+        Log.d(TAG, "onMapReady");
         mMap = googleMap;
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
