@@ -1,4 +1,4 @@
-package com.meong.podoandroid;
+package com.meong.podoandroid.helper;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

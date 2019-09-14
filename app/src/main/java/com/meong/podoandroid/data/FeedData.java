@@ -1,4 +1,4 @@
-package com.meong.podoandroid;
+package com.meong.podoandroid.data;
 
 public class FeedData {
     private String title;

@@ -1,8 +1,10 @@
-package com.meong.podoandroid;
+package com.meong.podoandroid.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.meong.podoandroid.R;
 
 public class LoginActivity extends AppCompatActivity {
 
