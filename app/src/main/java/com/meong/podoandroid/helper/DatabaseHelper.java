@@ -13,6 +13,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        feedSql(sqLiteDatabase);
+    }
+
+    private void feedSql(SQLiteDatabase sqLiteDatabase) {
         String tableName1 = "feed_leg";
         String tableName2="feed_calory";
         String tableName3="feed_wellbing";

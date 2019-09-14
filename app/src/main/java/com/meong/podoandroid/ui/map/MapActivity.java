@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -31,25 +32,34 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.meong.podoandroid.data.StoreItem;
+import com.meong.podoandroid.helper.MapDBHelper;
 import com.meong.podoandroid.ui.menu.MainActivity;
 import com.meong.podoandroid.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String TAG = "MapActivity";
+    private String TAG = "MapActivityTAG";
 
     private GoogleMap mMap;
     private LatLng currentPosition;
+
+    private Circle mCircle;
+
+    private boolean circleflag = false;
 
     private LocationRequest locationRequest;
     private FusedLocationProviderClient fusedLocationClient;
@@ -79,19 +89,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                Log.d(TAG,"onLocationResult");
+                Log.d(TAG, "onLocationResult");
 
                 if (locationResult == null) {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
+                        mMap.clear();
+
                         currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 
                         setOnCurLocationClickListener(currentPosition);
 
                         Log.d(TAG, "onLocationResult : " + location.getLatitude() + "," + location.getLongitude());
-                        txtCurrentLocation.setText(getGeocode(currentPosition));
+
+                        focusToCurPosition(currentPosition);
+
+                        selectStoreData();
                     }
                 }
             }
@@ -104,6 +119,55 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         onDrawerItemClickListener();
 
         setOnBtnClickListener();
+
+        MapDBHelper.openDatabase(getApplicationContext(), "StoreLocation");
+        MapDBHelper.createTable("store");
+        insertStoreData();
+    }
+
+    private void insertStoreData() {
+        ArrayList<StoreItem> items = new ArrayList<>();
+
+        items.add(new StoreItem("베스트동물병원", (float) 37.5909, (float) 127.0100, "서울특별시 성북구 동소문동3가 32"));
+        items.add(new StoreItem("서울종합동물병원", (float) 37.5888, (float) 127.0181, "서울특별시 성북구 보문동1가 9-1"));
+        items.add(new StoreItem("대학로동물병원", (float) 37.5857, (float) 127.0003, "서울특별시 종로구 명륜2가 14-1"));
+
+        MapDBHelper.insertStoreData(items);
+    }
+
+    private void selectStoreData() {
+
+        ArrayList<StoreItem> items = MapDBHelper.storeSelect("store");
+
+        floatMarker(items,currentPosition);
+    }
+
+    private void floatMarker(ArrayList<StoreItem> items, LatLng currentPosition) {
+        double distance;
+
+        Location locationNow = new Location("A");
+
+        locationNow.setLatitude(currentPosition.latitude);
+        locationNow.setLongitude(currentPosition.longitude);
+
+        for (int i = 0; i < items.size(); i++) {
+            Location locationNew = new Location("B");
+            locationNew.setLatitude(items.get(i).getLatitude());
+            locationNew.setLongitude(items.get(i).getLongtitude());
+
+            distance = locationNow.distanceTo(locationNew) / 1000; //in km
+            if (distance < 1.3) { //1.3 km 내의 마커만 띄웁니다.
+                
+                LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(marker)
+                        .title(items.get(i).getName())
+                        .snippet(items.get(i).getAddress());
+
+                mMap.addMarker(markerOptions);
+            }
+        }
     }
 
     private void setOnCurLocationClickListener(final LatLng currentPosition) {
@@ -120,19 +184,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void focusToCurPosition(LatLng currentPosition) {
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(currentPosition);
+        markerOptions.position(currentPosition)
+                .title("일단 한성대학교")
+                .snippet(getGeocode(currentPosition) + "")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_now));
 
-        markerOptions.title("현재 위치");
-        markerOptions.snippet(getGeocode(currentPosition)+"");
         mMap.addMarker(markerOptions);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(100));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f));
+
+        txtCurrentLocation.setText(getGeocode(currentPosition));
+
+        drawCircle(mMap, currentPosition);
+    }
+
+    private void drawCircle(GoogleMap googleMap, LatLng latlng) {
+        if (circleflag)
+            mCircle.remove();
+
+        CircleOptions circleOptions = new CircleOptions();
+
+        circleOptions.center(latlng)
+                .radius(1300.0)
+                .strokeColor(getResources().getColor(R.color.point_pink))
+                .fillColor(Color.parseColor("#4de1b2a3"))
+                .strokeWidth(1);
+
+        mCircle = googleMap.addCircle(circleOptions);
+        circleflag = true;
     }
 
 
     private void getMap() {
-        Log.d(TAG,"getMap");
+        Log.d(TAG, "getMap");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
@@ -265,7 +349,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        Log.d(TAG,"onMapReady");
+        Log.d(TAG, "onMapReady");
         mMap = googleMap;
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -273,10 +357,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LatLng SEOUL = new LatLng(37.56, 126.97);
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
+        markerOptions.position(SEOUL)
+                .title("아직 위치가 지정되지 않았습니다.");
 
-        markerOptions.title("아직 위치가 지정되지 않았습니다.");
-//        markerOptions.snippet("한국의 수도");
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
