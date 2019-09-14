@@ -52,7 +52,7 @@ import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private String TAG = "MapActivity";
+    private String TAG = "MapActivityTAG";
 
     private GoogleMap mMap;
     private LatLng currentPosition;
@@ -96,13 +96,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 for (Location location : locationResult.getLocations()) {
                     if (location != null) {
+                        mMap.clear();
+
                         currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
 
                         setOnCurLocationClickListener(currentPosition);
 
                         Log.d(TAG, "onLocationResult : " + location.getLatitude() + "," + location.getLongitude());
-
-                        //txtCurrentLocation.setText(getGeocode(currentPosition));
 
                         focusToCurPosition(currentPosition);
 
@@ -120,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         setOnBtnClickListener();
 
-        MapDBHelper.openDatabase(getApplicationContext(),"StoreLocation");
+        MapDBHelper.openDatabase(getApplicationContext(), "StoreLocation");
         MapDBHelper.createTable("store");
         insertStoreData();
     }
@@ -128,31 +128,45 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void insertStoreData() {
         ArrayList<StoreItem> items = new ArrayList<>();
 
-        items.add(new StoreItem("베스트동물병원",(float) 37.5909,(float) 127.0100,"서울특별시 성북구 동소문동3가 32"));
-        items.add(new StoreItem("서울종합동물병원",(float) 37.5888,(float) 127.0181,"서울특별시 성북구 보문동1가 9-1"));
-        items.add(new StoreItem("대학로동물병원",(float) 37.5857,(float) 127.0003,"서울특별시 종로구 명륜2가 14-1"));
+        items.add(new StoreItem("베스트동물병원", (float) 37.5909, (float) 127.0100, "서울특별시 성북구 동소문동3가 32"));
+        items.add(new StoreItem("서울종합동물병원", (float) 37.5888, (float) 127.0181, "서울특별시 성북구 보문동1가 9-1"));
+        items.add(new StoreItem("대학로동물병원", (float) 37.5857, (float) 127.0003, "서울특별시 종로구 명륜2가 14-1"));
 
         MapDBHelper.insertStoreData(items);
     }
 
     private void selectStoreData() {
+
         ArrayList<StoreItem> items = MapDBHelper.storeSelect("store");
 
-        floatMarker(items);
+        floatMarker(items,currentPosition);
     }
 
-    private void floatMarker(ArrayList<StoreItem> items) {
+    private void floatMarker(ArrayList<StoreItem> items, LatLng currentPosition) {
+        double distance;
 
-        for(int i=0 ;i < items.size(); i++) {
-            LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
+        Location locationNow = new Location("A");
 
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(marker);
+        locationNow.setLatitude(currentPosition.latitude);
+        locationNow.setLongitude(currentPosition.longitude);
 
-            markerOptions.title(items.get(i).getName());
-            markerOptions.snippet(items.get(i).getAddress());
+        for (int i = 0; i < items.size(); i++) {
+            Location locationNew = new Location("B");
+            locationNew.setLatitude(items.get(i).getLatitude());
+            locationNew.setLongitude(items.get(i).getLongtitude());
 
-            mMap.addMarker(markerOptions);
+            distance = locationNow.distanceTo(locationNew) / 1000; //in km
+            if (distance < 1.3) { //1.3 km 내의 마커만 띄웁니다.
+                
+                LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(marker)
+                        .title(items.get(i).getName())
+                        .snippet(items.get(i).getAddress());
+
+                mMap.addMarker(markerOptions);
+            }
         }
     }
 
@@ -169,23 +183,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void focusToCurPosition(LatLng currentPosition) {
 
-        LatLng hansung = new LatLng(37.581874, 127.010366);
-
-
         MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(currentPosition)
-        markerOptions.position(hansung)
+        markerOptions.position(currentPosition)
                 .title("일단 한성대학교")
-                .snippet(getGeocode(hansung) + "")
+                .snippet(getGeocode(currentPosition) + "")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_now));
 
         mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(hansung));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15f));
 
-        txtCurrentLocation.setText(getGeocode(hansung));
+        txtCurrentLocation.setText(getGeocode(currentPosition));
 
-        drawCircle(mMap, hansung);
+        drawCircle(mMap, currentPosition);
     }
 
     private void drawCircle(GoogleMap googleMap, LatLng latlng) {
@@ -347,10 +357,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LatLng SEOUL = new LatLng(37.56, 126.97);
 
         MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
+        markerOptions.position(SEOUL)
+                .title("아직 위치가 지정되지 않았습니다.");
 
-        markerOptions.title("아직 위치가 지정되지 않았습니다.");
-//        markerOptions.snippet("한국의 수도");
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));

@@ -43,6 +43,11 @@ public class MapDBHelper {
      * create Table
      */
     public static void createTable(String tableName) {
+        /*
+        만약 테이블을 삭제하고 싶을 때
+         */
+        //database.execSQL("drop table if exists "+tableName);
+
         Log.d(TAG, "createTable() 호출 됨." + tableName);
 
         if (database != null) {
