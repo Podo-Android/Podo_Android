@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dee9ff"
+    tools:context=".ui.feed.FeedRecommendActivity"
+    tools:openDrawer="start"
+    android:id="@+id/drawer_feed_act">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        >
+
+
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        >
+
+        <ImageView
+            android:id="@+id/feed_recommend_back_icon"
+            android:layout_width="28.2dp"
+            android:layout_height="8.2dp"
+            android:layout_marginLeft="25.5dp"
+            android:layout_marginTop="36.7dp"
+            android:src="@drawable/back_icon"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사료 추천"
+            android:layout_marginLeft="14.2dp"
+            android:layout_marginTop="33.6dp"
+            android:textColor="#455668"
+            android:textSize="16sp"
+            android:layout_toRightOf="@id/feed_recommend_back_icon"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/nanum_square_regular"/>
+
+        <ImageView
+            android:id="@+id/feed_recommend_menu_icon"
+            android:layout_width="24.3dp"
+            android:layout_height="23.9dp"
+            android:layout_marginTop="28.9dp"
+            android:layout_marginRight="37dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/menu_icon"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/relativelayout"
+        android:background="@drawable/edge_round2"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feed_recommend_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_marginTop="80.2dp">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="101.5dp"
+        android:layout_marginBottom="38.1dp">
+
+
+        <Button
+            android:id="@+id/feed_btn1"
+            android:layout_width="84dp"
+            android:layout_height="30.5dp"
+            android:layout_marginStart="27dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/selector_button"
+            android:fontFamily="@font/nanum_square_light"
+            android:includeFontPadding="false"
+            android:text="다리 건강"
+            android:textColor="#5e273a6d"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/feed_btn2"
+            android:layout_width="84dp"
+            android:layout_height="30.5dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/selector_button"
+            android:fontFamily="@font/nanum_square_light"
+            android:includeFontPadding="false"
+            android:text="저칼로리"
+            android:textColor="#5e273a6d"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/feed_btn3"
+            app:layout_constraintStart_toEndOf="@+id/feed_btn1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/feed_btn3"
+            android:layout_width="84dp"
+            android:layout_height="30.5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/selector_button"
+            android:fontFamily="@font/nanum_square_light"
+            android:includeFontPadding="false"
+            android:text="유기농"
+            android:textColor="#5e273a6d"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/nav_view"
+        layout="@layout/nav_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:fitsSystemWindows="true" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

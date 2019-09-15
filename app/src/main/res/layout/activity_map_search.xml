@@ -30,6 +30,7 @@
             android:layout_marginLeft="25.5dp"
             />
         <TextView
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="병원위치"
@@ -43,7 +44,7 @@
             android:id="@+id/map_hamburger"
             android:layout_width="26dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="178dp"
+            android:layout_marginRight="40dp"
             android:layout_marginTop="23.9dp"
             android:background="@drawable/ic_hamburger" />
     </LinearLayout>
@@ -78,6 +79,7 @@
                 />
             <EditText
                 android:layout_width="227dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5.1dp"
                 android:background="@android:color/transparent"
@@ -92,35 +94,8 @@
                 />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginRight="22dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/map_circle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/map_circle2"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintEnd_toEndOf="@+id/imageView"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:layout_constraintVertical_bias="0.142" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
-
     <include
         android:id="@+id/nav_view"
         layout="@layout/nav_main"
