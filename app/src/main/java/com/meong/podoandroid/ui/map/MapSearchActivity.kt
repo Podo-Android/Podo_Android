@@ -14,20 +14,21 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.meong.podoandroid.BR
 
-import com.meong.podoandroid.R
 import com.meong.podoandroid.databinding.ActivityMapSearchBinding
 import com.meong.podoandroid.databinding.RvItemSearchLocationBinding
 import com.meong.podoandroid.network.NetworkService
+import com.meong.podoandroid.ui.feed.FeedRecommendActivity
 import com.meong.podoandroid.ui.map.get.GetLocationListResponse
 import com.meong.podoandroid.ui.map.get.GetLocationListResponseData
 import com.meong.podoandroid.ui.menu.MainActivity
 import kotlinx.android.synthetic.main.activity_map_search.*
+import kotlinx.android.synthetic.main.nav_main.*
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -103,6 +104,8 @@ class MapSearchActivity : AppCompatActivity() {
             override fun onResponse(call: Call<GetLocationListResponse>, response: Response<GetLocationListResponse>) {
                 if (response.isSuccessful) {
                     mBinding.setVariable(BR.item, response.body()!!.documents)
+                    locationItems.value = response.body()!!.documents
+
                     Log.d(TAG, response.body()!!.documents.toString())
 
                     mBinding.recyclerView.adapter!!.notifyDataSetChanged()
@@ -113,13 +116,22 @@ class MapSearchActivity : AppCompatActivity() {
 
     private fun onDrawerItemClickListener() {
         // 홈이 눌렸을 때
-        val txtHome = findViewById<View>(R.id.txt_nav_main_home) as TextView
-        txtHome.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-
+        txt_nav_main_home.setOnClickListener {
+            startActivity<MainActivity>()
             finish()
         }
+
+        //병원 위치 눌렸을 때
+        txt_nav_main_hospital.setOnClickListener {
+            startActivity<MapActivity>()
+            finish()
+        }
+
+        txt_nav_main_recommend.setOnClickListener {
+            startActivity<FeedRecommendActivity>()
+            finish()
+        }
+
 
     }
 
@@ -129,6 +141,10 @@ class MapSearchActivity : AppCompatActivity() {
 
     private fun setOnBtnClickListener() {
         map_hamburger.setOnClickListener { drawer_map_search_act.openDrawer(Gravity.LEFT) }
+        img_search_map_act_clear.setOnClickListener {
+            locationItems.value = listOf()
+            et_map_search_act_location.text.clear()
+        }
     }
 }
 
