@@ -149,7 +149,7 @@
                         android:layout_height="136dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="22.3dp"
-                        android:background="@drawable/main_todayweight_edge"
+                        android:background="@drawable/main_today_background"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -256,7 +256,7 @@
                         android:layout_height="137dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="22.3dp"
-                        android:background="@drawable/main_sevenweight_edge"
+                        android:background="@drawable/main_seven_background"
                         android:orientation="vertical">
 
                     </LinearLayout>
@@ -300,13 +300,25 @@
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
                                 android:layout_marginLeft="150dp"
-                                android:background="@drawable/main_leftarrow"></ImageView>
+                                android:background="@drawable/main_leftarrow"
+                                android:layout_marginTop="2dp">
 
+                            </ImageView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:text="8월">
+
+                            </TextView>
                             <ImageView
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
-                                android:layout_marginLeft="90dp"
-                                android:background="@drawable/main_rightarrow"></ImageView>
+                                android:layout_marginLeft="30dp"
+                                android:background="@drawable/main_rightarrow"
+                                android:layout_marginTop="2dp">
+
+                            </ImageView>
 
                         </LinearLayout>
 
@@ -319,16 +331,23 @@
                             android:layout_marginTop="22.3dp">
 
                         </TextView>
-
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="304dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/main_weightbar">
-
                     </LinearLayout>
+                        <ImageView
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/sickpoint">
 
+                        </ImageView>
+                    </FrameLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -354,12 +373,12 @@
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-                    <include
-                android:id="@+id/nav_view"
-                layout="@layout/nav_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:fitsSystemWindows="true" />
+<!--                    <include-->
+<!--                android:id="@+id/nav_view"-->
+<!--                layout="@layout/nav_main"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="left"-->
+<!--                android:fitsSystemWindows="true" />-->
         </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>
