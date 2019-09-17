@@ -25,14 +25,13 @@
         <activity android:name=".ui.map.MapSearchActivity" />
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.menu.MainActivity">
+        </activity>
+        <activity android:name=".ui.feed.FeedRecommendActivity">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-        <activity android:name=".ui.feed.FeedRecommendActivity">
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
