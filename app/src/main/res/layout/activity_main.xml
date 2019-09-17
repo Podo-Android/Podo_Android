@@ -18,9 +18,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <Switch
+                    android:id="@+id/bluetooth_on_off_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:switchMinWidth="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentTop="true"
+                    android:track="@drawable/switch_selector"
+                    android:thumb="@drawable/switch_circle"
+                    android:thumbTextPadding="10dp"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="#64646d"
+                    android:textSize="11.8sp"
+                    android:text="Bluetooth: "
+                    android:checked="true"
+                    android:textOff="OFF"
+                    android:textOn="ON"/>
 
                 <ImageView
                     android:layout_width="68dp"

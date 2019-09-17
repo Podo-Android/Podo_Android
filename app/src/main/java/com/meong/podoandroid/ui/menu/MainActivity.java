@@ -7,14 +7,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.meong.podoandroid.bluetooth.BluetoothService;
 import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    final static int BT_REQUEST_ENABLE = 1;
+    BluetoothService bluetooth;
 
     ImageView imgMenu;
     DrawerLayout drawer;
@@ -24,10 +31,29 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        bluetooth= new BluetoothService(this);
+
+        Switch sw= (Switch)findViewById(R.id.bluetooth_on_off_switch);
+
+        sw.setTextOff("OFF");
+        sw.setTextOn("ON");
+        sw.setChecked(false);
 
         setDrawer();
         setOnBtnClickListener();
         onDrawerItemClickListener();
+
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked) {
+                    bluetooth.bluetoothOn();
+                }
+                else{
+                    bluetooth.bluetoothOff();
+                }
+            }
+        });
     }
 
     private void onDrawerItemClickListener() {
@@ -81,5 +107,21 @@ public class MainActivity extends AppCompatActivity {
                 drawer.openDrawer(Gravity.LEFT);
             }
         });
+    }
+
+    //블루투스 활성화 결과를 위한 메소드드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case BT_REQUEST_ENABLE:
+                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
+                    bluetooth.listPairedDevices();
+                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
