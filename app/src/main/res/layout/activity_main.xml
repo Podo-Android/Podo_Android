@@ -43,7 +43,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/img_main_act_menu"
-                android:layout_marginTop="31.5dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
                 android:background="@drawable/background_border_sky">
                 <!-- 하늘색 배경 -->
                 <LinearLayout
@@ -67,28 +73,29 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11.8sp"
-                            android:textColor="#64646d"
+                            android:layout_marginLeft="5.4dp"
                             android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
                             android:letterSpacing="0.05"
                             android:lineSpacingExtra="2.4sp"
-                            android:gravity="center_horizontal"
                             android:text="다리 이상 여부"
-                            android:layout_marginLeft="5.4dp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            />
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
 
                     </LinearLayout>
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
-                            <ImageView
-                                android:layout_width="298dp"
-                                android:layout_height="331dp"
-                                android:layout_gravity="center"
-                                android:layout_marginHorizontal="32dp"
-                                android:layout_marginTop="15dp"
-                                android:background="@drawable/main_image_background" />
+
+                        <ImageView
+                            android:layout_width="298dp"
+                            android:layout_height="331dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="32dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/main_image_background" />
 
                         <ImageView
                             android:layout_width="180dp"
@@ -100,154 +107,21 @@
                         <TextView
                             android:layout_width="180dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="269.1dp"
                             android:letterSpacing="0.05"
                             android:lineSpacingExtra="2.2sp"
-                            android:layout_gravity="center_horizontal"
                             android:text="우리 댕댕이 다리는 튼튼해요 !"
-                            android:textSize="11sp"
                             android:textAlignment="center"
-                            android:textColor="#606060"/>
+                            android:textColor="#606060"
+                            android:textSize="13sp" />
                     </FrameLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="33.6dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/ic_part" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="11.8sp"
-                        android:textColor="#64646d"
-                        android:layout_marginTop="40dp"
-                        android:letterSpacing="0.05"
-                        android:lineSpacingExtra="2.4sp"
-                        android:gravity="center_horizontal"
-                        android:text="오늘의 몸무게"
-                        android:layout_marginLeft="5.4dp"
-                        android:fontFamily="@font/nanum_square_regular"
-                        />
-                </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="282dp"
-                        android:layout_height="136dp"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="22.3dp"
-                        android:background="@drawable/main_todayweight_edge"
-                        android:layout_gravity="center">
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="11.8sp"
-                            android:layout_marginTop="25.4dp"
-                            android:layout_marginLeft="63dp"
-                            android:textColor="#a3866f"
-                            android:letterSpacing="0.05"
-                            android:lineSpacingExtra="2.4sp"
-                            android:gravity="center_horizontal"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:text="체중"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="25.5dp"
-                            android:layout_marginLeft="51dp"
-                            android:gravity="center_horizontal"
-                            android:letterSpacing="0.05"
-                            android:lineSpacingExtra="3sp"
-                            android:textColor="#606060"
-                            android:textSize="15sp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:text="4.1 kg" />
-                    </LinearLayout>
-                        <ImageView
-                            android:layout_width="28dp"
-                            android:layout_height="86dp"
-                            android:layout_marginTop="25dp"
-                            android:layout_marginLeft="30dp"
-                            android:background="@drawable/main_slash" />
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="11.8sp"
-                            android:layout_marginTop="25.4dp"
-                            android:layout_marginLeft="31.7dp"
-                            android:textColor="#a3866f"
-                            android:letterSpacing="0.05"
-                            android:lineSpacingExtra="2.4sp"
-                            android:gravity="center_horizontal"
-                            android:fontFamily="@font/nanum_square_regular"
-                            android:text="비만도"
-                            />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="25.5dp"
-                                android:layout_marginLeft="34.2dp"
-                                android:gravity="center_horizontal"
-                                android:letterSpacing="0.05"
-                                android:lineSpacingExtra="3sp"
-                                android:textColor="#606060"
-                                android:textSize="15sp"
-                                android:fontFamily="@font/nanum_square_regular"
-                                android:text="정상" />
-                        </LinearLayout>
-                    </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="33.6dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@drawable/ic_part" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="11.8sp"
-                        android:textColor="#64646d"
-                        android:layout_marginTop="40dp"
-                        android:letterSpacing="0.05"
-                        android:lineSpacingExtra="2.4sp"
-                        android:gravity="center_horizontal"
-                        android:text="최근 일주일 몸무게"
-                        android:layout_marginLeft="5.4dp"
-                        android:fontFamily="@font/nanum_square_regular"
-                        />
-                </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="320dp"
-                        android:layout_height="137dp"
-                        android:orientation="vertical"
-                        android:layout_marginTop="22.3dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/main_sevenweight_edge">
-
-                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
@@ -255,29 +129,197 @@
                             android:layout_marginLeft="33.6dp"
                             android:layout_marginTop="20dp"
                             android:background="@drawable/ic_part" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="11.8sp"
-                            android:textColor="#64646d"
+                            android:layout_marginLeft="5.4dp"
                             android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
                             android:letterSpacing="0.05"
                             android:lineSpacingExtra="2.4sp"
-                            android:gravity="center_horizontal"
-                            android:text="월 평균 몸무게"
-                            android:layout_marginLeft="5.4dp"
-                            android:fontFamily="@font/nanum_square_regular"
-                            />
+                            android:text="오늘의 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
                     </LinearLayout>
-                <LinearLayout
-                    android:layout_width="282dp"
-                    android:layout_height="136dp"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="22.3dp"
-                    android:background="@drawable/main_todayweight_edge"
-                    android:layout_gravity="center">
 
-                </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="282dp"
+                        android:layout_height="136dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="22.3dp"
+                        android:background="@drawable/main_todayweight_edge"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="63dp"
+                                android:layout_marginTop="25.4dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="2.4sp"
+                                android:text="체중"
+                                android:textColor="#a3866f"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="51dp"
+                                android:layout_marginTop="25.5dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="3sp"
+                                android:text="4.1 kg"
+                                android:textColor="#606060"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="86dp"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginTop="25dp"
+                            android:background="@drawable/main_slash" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="31.7dp"
+                                android:layout_marginTop="25.4dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="2.4sp"
+                                android:text="비만도"
+                                android:textColor="#a3866f"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="34.2dp"
+                                android:layout_marginTop="25.5dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="3sp"
+                                android:text="정상"
+                                android:textColor="#606060"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="최근 일주일 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="320dp"
+                        android:layout_height="137dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="22.3dp"
+                        android:background="@drawable/main_sevenweight_edge"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="월 평균 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+                    </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginLeft="150dp"
+                                android:background="@drawable/main_leftarrow"></ImageView>
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_marginLeft="90dp"
+                                android:background="@drawable/main_rightarrow"></ImageView>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="7kg"
+                            android:textSize="40sp"
+                            android:layout_marginTop="22.3dp">
+
+                        </TextView>
+
                     <LinearLayout
                         android:layout_width="304dp"
                         android:layout_height="15dp"
@@ -287,15 +329,37 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="저체중"
+                            android:layout_marginLeft="45dp"/>
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="정상"
+                        android:layout_marginLeft="110dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="과체중"
+                            android:layout_marginLeft="110dp"/>
+                    </LinearLayout>
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-<!--            <include-->
-<!--                android:id="@+id/nav_view"-->
-<!--                layout="@layout/nav_main"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_gravity="left"-->
-<!--                android:fitsSystemWindows="true" />-->
+                    <include
+                android:id="@+id/nav_view"
+                layout="@layout/nav_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:fitsSystemWindows="true" />
         </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>
