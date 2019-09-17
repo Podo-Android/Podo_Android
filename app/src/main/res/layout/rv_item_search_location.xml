@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+        <variable
+            name="item"
+            type="com.meong.podoandroid.ui.map.get.GetLocationListResponseData" />
+    </data>
+
+    <RelativeLayout
+        android:paddingVertical="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginHorizontal="8dp"
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/common_location" />
+        <LinearLayout
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:text="@{item.place_name}"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="장소이름" />
+
+            <TextView
+                android:layout_marginRight="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textSize="11sp"
+                android:maxLines="1"
+                android:text="@{item.address_name}"
+                android:ellipsize="end"
+                android:textColor="@color/colorTextGray"
+                tools:text="서울특별시 성북구 삼선교로16길 116 상상빌리지" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

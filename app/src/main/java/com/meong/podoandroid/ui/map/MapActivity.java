@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class   MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String TAG = "MapActivityTAG";
 
