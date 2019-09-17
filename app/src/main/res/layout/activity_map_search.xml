@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-    android:background="#dee9ff"
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data>
+        <variable
+            name="activity"
+            type="com.meong.podoandroid.ui.map.MapSearchActivity" />
+    </data>
+
+<RelativeLayout
+    android:background="#dee9ff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_map_search_act"
         android:layout_width="match_parent"
@@ -78,6 +89,8 @@
                 android:background="@drawable/ic_search"
                 />
             <EditText
+                android:id="@+id/et_map_search_act_location"
+                android:padding="2dp"
                 android:layout_width="227dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -94,16 +107,32 @@
                 />
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            app:app_recyclerview_location_items="@{activity.locationItems}"
+
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
-    <!--<include
+    <include
         android:id="@+id/nav_view"
         layout="@layout/nav_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:fitsSystemWindows="true"
-        />-->
+        />
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>
+</layout>

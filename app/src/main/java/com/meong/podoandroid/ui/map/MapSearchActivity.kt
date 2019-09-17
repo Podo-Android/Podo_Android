@@ -1,28 +1,114 @@
 package com.meong.podoandroid.ui.map
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
+import com.meong.podoandroid.BR
 
 import com.meong.podoandroid.R
+import com.meong.podoandroid.databinding.ActivityMapSearchBinding
+import com.meong.podoandroid.databinding.RvItemSearchLocationBinding
+import com.meong.podoandroid.network.NetworkService
+import com.meong.podoandroid.ui.map.get.GetLocationListResponse
+import com.meong.podoandroid.ui.map.get.GetLocationListResponseData
 import com.meong.podoandroid.ui.menu.MainActivity
 import kotlinx.android.synthetic.main.activity_map_search.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MapSearchActivity : AppCompatActivity() {
 
+    private lateinit var mBinding: ActivityMapSearchBinding
+
+    lateinit var networkService: NetworkService
+
+    val TAG: String = "MapSearchAvtivity"
+
+    private var lat: Double? = null
+    private var lon: Double? = null
+
+    var locationItems: MutableLiveData<List<GetLocationListResponseData>> =
+            MutableLiveData<List<GetLocationListResponseData>>().apply { this.value = listOf() }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map_search)
+
+        mBinding = ActivityMapSearchBinding.inflate(LayoutInflater.from(this))
+        setContentView(mBinding.root)
+
+        mBinding.lifecycleOwner = this
+        mBinding.activity = this
+
+        mBinding.recyclerView.adapter = SearchLocationAdapter()
+
+        getAddressData()
 
         setDrawer()
         setOnBtnClickListener()
         onDrawerItemClickListener()
+    }
+
+    private fun getAddressData() {
+        val builder = Retrofit.Builder()
+        val retrofit_loc_search = builder
+                .baseUrl("https://dapi.kakao.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+        networkService = retrofit_loc_search.create(NetworkService::class.java)
+
+        var header = "KakaoAK f58c0b6bf01032faee81071dd1d935c6"
+
+        et_map_search_act_location.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(string: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (string.toString() != "") {
+                    getLocationList(applicationContext, header, string.toString())
+                }
+            }
+        })
+
+    }
+
+    private fun getLocationList(context: Context?, header: String, location: String) {
+        var getLocationList = networkService.getLocationList(header, location)
+        getLocationList.enqueue(object : Callback<GetLocationListResponse> {
+            override fun onFailure(call: Call<GetLocationListResponse>, t: Throwable) {
+                Log.d(TAG, "t!!.message.toString()")
+            }
+
+            override fun onResponse(call: Call<GetLocationListResponse>, response: Response<GetLocationListResponse>) {
+                if (response.isSuccessful) {
+                    mBinding.setVariable(BR.item, response.body()!!.documents)
+                    Log.d(TAG, response.body()!!.documents.toString())
+
+                    mBinding.recyclerView.adapter!!.notifyDataSetChanged()
+                }
+            }
+        })
     }
 
     private fun onDrawerItemClickListener() {
@@ -44,4 +130,50 @@ class MapSearchActivity : AppCompatActivity() {
     private fun setOnBtnClickListener() {
         map_hamburger.setOnClickListener { drawer_map_search_act.openDrawer(Gravity.LEFT) }
     }
+}
+
+class SearchLocationAdapter : RecyclerView.Adapter<SearchLocationAdapter.MyHolder>() {
+
+    var items: List<GetLocationListResponseData> = listOf()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = RvItemSearchLocationBinding.inflate(inflater, parent, false)
+
+        return MyHolder(binding)
+    }
+
+    override fun getItemCount(): Int = items.size
+
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        holder.bind(items[position])
+        holder.itemView.setOnClickListener {
+            Log.d(TAG, "$position 클릭됨.")
+        }
+    }
+
+
+    inner class MyHolder(private val binding: RvItemSearchLocationBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Any) {
+            binding.setVariable(BR.item, item)
+            binding.executePendingBindings()
+        }
+    }
+}
+
+@BindingAdapter("app_recyclerview_location_items")
+fun RecyclerView.setItems(items: List<GetLocationListResponseData>) {
+    (adapter as? SearchLocationAdapter)?.run {
+        this.items = items
+        this.notifyDataSetChanged()
+    }
+}
+
+
+@BindingAdapter("android:visibility")
+fun View.setVisibilityBinding(visible: Boolean) {
+    this.visibility = if (visible)
+        View.VISIBLE
+    else
+        View.GONE
 }
