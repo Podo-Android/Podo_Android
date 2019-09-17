@@ -307,7 +307,7 @@ public class   MapActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     private void setDrawer() {
-        drawer = (DrawerLayout) findViewById(R.id.drawer_map_search_act);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_map_act);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 

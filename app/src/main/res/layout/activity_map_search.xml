@@ -82,10 +82,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="17.6dp"
-                android:layout_height="13.4dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5.1dp"
+                android:layout_marginLeft="8dp"
                 android:background="@drawable/ic_search"
                 />
             <EditText
@@ -98,6 +98,7 @@
                 android:background="@android:color/transparent"
                 />
             <ImageView
+                android:id="@+id/img_search_map_act_clear"
                 android:layout_width="11dp"
                 android:layout_height="11dp"
                 android:layout_gravity="center_vertical"
@@ -109,6 +110,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             app:app_recyclerview_location_items="@{activity.locationItems}"
+            android:visibility="@{activity.locationItems.size > 0}"
 
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
