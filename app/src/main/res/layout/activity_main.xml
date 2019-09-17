@@ -28,6 +28,27 @@
                 android:layout_marginLeft="33.5dp"
                 android:layout_marginTop="37.8dp"
                 android:background="@drawable/main_logo_text" />
+                <Switch
+                    android:id="@+id/bluetooth_on_off_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:switchMinWidth="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="33.5dp"
+                    android:layout_alignParentTop="true"
+                    android:track="@drawable/switch_selector"
+                    android:thumb="@drawable/switch_circle"
+                    android:thumbTextPadding="10dp"
+                    android:fontFamily="@font/nanum_square_regular"
+                    android:includeFontPadding="false"
+                    android:textColor="#64646d"
+                    android:textSize="11.8sp"
+                    android:text="Bluetooth: "
+                    android:checked="true"
+                    android:textOff="OFF"
+                    android:textOn="ON"/>
+
+
 
             <ImageView
                 android:id="@+id/img_main_act_menu"
