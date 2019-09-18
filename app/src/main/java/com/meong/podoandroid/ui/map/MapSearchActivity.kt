@@ -1,11 +1,10 @@
 package com.meong.podoandroid.ui.map
 
-import android.content.ContentValues.TAG
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +17,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.meong.podoandroid.BR
+import com.meong.podoandroid.data.StoreItem
 
 import com.meong.podoandroid.databinding.ActivityMapSearchBinding
 import com.meong.podoandroid.databinding.RvItemSearchLocationBinding
@@ -43,9 +43,6 @@ class MapSearchActivity : AppCompatActivity() {
 
     val TAG: String = "MapSearchAvtivity"
 
-    private var lat: Double? = null
-    private var lon: Double? = null
-
     var locationItems: MutableLiveData<List<GetLocationListResponseData>> =
             MutableLiveData<List<GetLocationListResponseData>>().apply { this.value = listOf() }
 
@@ -57,8 +54,6 @@ class MapSearchActivity : AppCompatActivity() {
 
         mBinding.lifecycleOwner = this
         mBinding.activity = this
-
-        mBinding.recyclerView.adapter = SearchLocationAdapter()
 
         getAddressData()
 
@@ -87,18 +82,18 @@ class MapSearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(string: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (string.toString() != "") {
-                    getLocationList(applicationContext, header, string.toString())
+                    getLocationList(header, string.toString())
                 }
             }
         })
 
     }
 
-    private fun getLocationList(context: Context?, header: String, location: String) {
+    private fun getLocationList(header: String, location: String) {
         var getLocationList = networkService.getLocationList(header, location)
         getLocationList.enqueue(object : Callback<GetLocationListResponse> {
             override fun onFailure(call: Call<GetLocationListResponse>, t: Throwable) {
-                Log.d(TAG, "t!!.message.toString()")
+                Log.d(TAG, t!!.message.toString())
             }
 
             override fun onResponse(call: Call<GetLocationListResponse>, response: Response<GetLocationListResponse>) {
@@ -106,8 +101,7 @@ class MapSearchActivity : AppCompatActivity() {
                     mBinding.setVariable(BR.item, response.body()!!.documents)
                     locationItems.value = response.body()!!.documents
 
-                    Log.d(TAG, response.body()!!.documents.toString())
-
+                    mBinding.recyclerView.adapter = SearchLocationAdapter { locationItems : GetLocationListResponseData -> recyclerViewItemClicked(locationItems)}
                     mBinding.recyclerView.adapter!!.notifyDataSetChanged()
                 }
             }
@@ -146,10 +140,20 @@ class MapSearchActivity : AppCompatActivity() {
             et_map_search_act_location.text.clear()
         }
     }
+
+    private fun recyclerViewItemClicked(item: GetLocationListResponseData ){
+        var item = StoreItem(item.place_name,item.y!!.toFloat(), item.x!!.toFloat(),item.address_name)
+
+        val intent : Intent = Intent()
+        intent.putExtra("storeItem",item)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
+    }
 }
 
-class SearchLocationAdapter : RecyclerView.Adapter<SearchLocationAdapter.MyHolder>() {
+class SearchLocationAdapter(clickListener : (GetLocationListResponseData) -> Unit) : RecyclerView.Adapter<SearchLocationAdapter.MyHolder>() {
 
+    val clickListener : (GetLocationListResponseData) -> Unit = clickListener
     var items: List<GetLocationListResponseData> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -162,17 +166,15 @@ class SearchLocationAdapter : RecyclerView.Adapter<SearchLocationAdapter.MyHolde
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
-        holder.bind(items[position])
-        holder.itemView.setOnClickListener {
-            Log.d(TAG, "$position 클릭됨.")
-        }
+        holder.bind(items[position],clickListener)
     }
 
 
     inner class MyHolder(private val binding: RvItemSearchLocationBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Any) {
+        fun bind(item: GetLocationListResponseData,clickListener : (GetLocationListResponseData)-> Unit) {
             binding.setVariable(BR.item, item)
             binding.executePendingBindings()
+            binding.root.setOnClickListener { clickListener(item) }
         }
     }
 }
@@ -184,7 +186,6 @@ fun RecyclerView.setItems(items: List<GetLocationListResponseData>) {
         this.notifyDataSetChanged()
     }
 }
-
 
 @BindingAdapter("android:visibility")
 fun View.setVisibilityBinding(visible: Boolean) {

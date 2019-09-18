@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class   MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private String TAG = "MapActivityTAG";
 
@@ -139,7 +139,7 @@ public class   MapActivity extends AppCompatActivity implements OnMapReadyCallba
 
         ArrayList<StoreItem> items = MapDBHelper.storeSelect("store");
 
-        floatMarker(items,currentPosition);
+        floatMarker(items, currentPosition);
     }
 
     private void floatMarker(ArrayList<StoreItem> items, LatLng currentPosition) {
@@ -157,7 +157,7 @@ public class   MapActivity extends AppCompatActivity implements OnMapReadyCallba
 
             distance = locationNow.distanceTo(locationNew) / 1000; //in km
             if (distance < 1.3) { //1.3 km 내의 마커만 띄웁니다.
-                
+
                 LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
 
                 MarkerOptions markerOptions = new MarkerOptions();
@@ -179,6 +179,24 @@ public class   MapActivity extends AppCompatActivity implements OnMapReadyCallba
                 focusToCurPosition(currentPosition);
             }
         });
+    }
+
+    private void floatSearchResultMarker(StoreItem storeItem) {
+        Log.d(TAG+"소희",storeItem.toString());
+        LatLng currentPosition= new LatLng(storeItem.getLatitude(),storeItem.getLongtitude());
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(currentPosition)
+                .title(storeItem.getName())
+                .snippet(storeItem.getAddress())
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_now));
+
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currentPosition));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15f));
+
+        txtCurrentLocation.setText(storeItem.getAddress());
+
+        drawCircle(mMap, currentPosition);
     }
 
     private void focusToCurPosition(LatLng currentPosition) {
@@ -367,12 +385,13 @@ public class   MapActivity extends AppCompatActivity implements OnMapReadyCallba
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_OK) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (resultCode == RESULT_OK) {
             if (requestCode == 1004) {
-                //마커 띄우기
+                StoreItem storeItem = intent.getParcelableExtra("storeItem");
+                Log.d(TAG+"소희","우씨"+storeItem.toString());
+                floatSearchResultMarker(storeItem);
             }
         }
     }

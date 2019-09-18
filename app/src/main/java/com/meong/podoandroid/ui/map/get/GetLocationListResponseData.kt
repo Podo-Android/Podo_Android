@@ -1,5 +1,7 @@
 package com.meong.podoandroid.ui.map.get
 
+import android.view.View
+
 data class GetLocationListResponseData(
 
         var address_name: String?,
@@ -16,3 +18,4 @@ data class GetLocationListResponseData(
         var y: String?, // lat
         var dot: Boolean? = false
 )
+
