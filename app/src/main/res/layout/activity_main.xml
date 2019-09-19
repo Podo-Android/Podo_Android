@@ -118,12 +118,69 @@
                             android:layout_marginTop="15dp"
                             android:background="@drawable/main_image_background" />
 
-                        <ImageView
-                            android:layout_width="180dp"
-                            android:layout_height="146dp"
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="62dp"
-                            android:background="@drawable/main_dog" />
+                            android:layout_marginTop="62dp">
+
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="180dp"
+                                android:layout_height="146dp"
+                                android:background="@drawable/main_dog"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/front_left_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="60dp"
+                                android:layout_marginLeft="60dp"
+                                android:layout_marginBottom="29dp"
+                                android:src="@drawable/leg_sign"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/front_right_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="43dp"
+                                android:layout_marginLeft="43dp"
+                                android:layout_marginBottom="22dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/end_left_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginBottom="29dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/end_right_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginEnd="33dp"
+                                android:layout_marginRight="33dp"
+                                android:layout_marginBottom="19dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:layout_width="180dp"
@@ -394,12 +451,12 @@
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-                    <include
+                 <!--   <include
                 android:id="@+id/nav_view"
                 layout="@layout/nav_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:fitsSystemWindows="true" />
+                android:fitsSystemWindows="true" />-->
         </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>

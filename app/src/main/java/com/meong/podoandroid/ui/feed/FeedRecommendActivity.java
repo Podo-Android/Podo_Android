@@ -25,7 +25,7 @@ import com.meong.podoandroid.R;
 import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.ui.deco.HorizontalSpaceItemDecoration;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
-import com.meong.podoandroid.ui.menu.MainActivity;
+import com.meong.podoandroid.ui.home.MainActivity;
 
 import java.util.ArrayList;
 

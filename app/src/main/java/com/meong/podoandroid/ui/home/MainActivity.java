@@ -1,4 +1,4 @@
-package com.meong.podoandroid.ui.menu;
+package com.meong.podoandroid.ui.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,6 +20,7 @@ import com.meong.podoandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg;
     final static int BT_REQUEST_ENABLE = 1;
     BluetoothService bluetooth;
 
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        front_right_leg=(ImageView)findViewById(R.id.front_right_leg);
+        front_left_leg=(ImageView)findViewById(R.id.front_left_leg);
+        end_right_leg=(ImageView)findViewById(R.id.end_right_leg);
+        end_left_leg=(ImageView)findViewById(R.id.end_left_leg);
 
         bluetooth= new BluetoothService(this);
 
