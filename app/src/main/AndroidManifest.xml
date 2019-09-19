@@ -2,8 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.meong.podoandroid">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <!--블루투스 권한-->
@@ -22,16 +25,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.map.MapActivity">
         </activity>
-        <activity android:name=".ui.map.MapSearchActivity" />
+        <activity android:name=".ui.map.MapSearchActivity" >
+        </activity>
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.menu.MainActivity">
-        </activity>
-        <activity android:name=".ui.feed.FeedRecommendActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ui.feed.FeedRecommendActivity">
         </activity>
 
 
@@ -41,12 +45,6 @@
 
     </application>
 
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 
 </manifest>
