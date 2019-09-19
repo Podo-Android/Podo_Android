@@ -176,14 +176,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         imgCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mMap.clear();
                 focusToCurPosition(currentPosition);
             }
         });
     }
 
     private void floatSearchResultMarker(StoreItem storeItem) {
-        Log.d(TAG+"소희",storeItem.toString());
-        LatLng currentPosition= new LatLng(storeItem.getLatitude(),storeItem.getLongtitude());
+        Log.d(TAG + "소희", storeItem.toString());
+        LatLng currentPosition = new LatLng(storeItem.getLatitude(), storeItem.getLongtitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentPosition)
                 .title(storeItem.getName())
@@ -203,7 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentPosition)
-                .title("일단 한성대학교")
+                .title("현재 위치")
                 .snippet(getGeocode(currentPosition) + "")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_now));
 
@@ -230,6 +231,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mCircle = googleMap.addCircle(circleOptions);
         circleflag = true;
+
+        selectStoreData();
     }
 
 
@@ -389,8 +392,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onActivityResult(requestCode, resultCode, intent);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1004) {
-                StoreItem storeItem = intent.getParcelableExtra("storeItem");
-                Log.d(TAG+"소희","우씨"+storeItem.toString());
+                String name = intent.getStringExtra("name");
+                String address = intent.getStringExtra("address");
+                Float lat = intent.getFloatExtra("lat", 37);
+                Float lon = intent.getFloatExtra("lon", 126);
+
+                StoreItem storeItem = new StoreItem(name, lat, lon, address);
+
+                mMap.clear();
                 floatSearchResultMarker(storeItem);
             }
         }
