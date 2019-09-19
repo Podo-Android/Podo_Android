@@ -34,9 +34,11 @@
         android:orientation="horizontal"
         >
         <ImageView
+            android:id="@+id/img_map_search_act_back"
+            android:paddingVertical="8dp"
             android:layout_width="28.3dp"
             android:layout_height="8.2dp"
-            android:background="@drawable/back"
+            android:src="@drawable/back"
             android:layout_marginTop="31.7dp"
             android:layout_marginLeft="25.5dp"
             />
@@ -68,7 +70,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
-            android:layout_height="26.3dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="28dp"
@@ -82,15 +84,15 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="12dp"
-                android:layout_height="12dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/ic_search"
+                android:src="@drawable/ic_search"
                 />
             <EditText
                 android:id="@+id/et_map_search_act_location"
-                android:padding="2dp"
+                android:padding="4dp"
                 android:layout_width="227dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
@@ -99,12 +101,12 @@
                 />
             <ImageView
                 android:id="@+id/img_search_map_act_clear"
-                android:layout_width="11dp"
-                android:layout_height="11dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5.1dp"
-                android:layout_marginRight="7.3dp"
-                android:background="@drawable/map_exit"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/map_exit"
                 />
         </LinearLayout>
 
