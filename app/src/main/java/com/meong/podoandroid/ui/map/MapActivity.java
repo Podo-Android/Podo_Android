@@ -183,7 +183,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void floatSearchResultMarker(StoreItem storeItem) {
-        Log.d(TAG + "소희", storeItem.toString());
         LatLng currentPosition = new LatLng(storeItem.getLatitude(), storeItem.getLongtitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(currentPosition)
