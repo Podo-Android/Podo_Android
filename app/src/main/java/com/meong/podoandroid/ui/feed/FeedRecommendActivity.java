@@ -279,5 +279,6 @@ public class FeedRecommendActivity extends AppCompatActivity {
         mRecyclerview.setAdapter(adapter);
     }
 
+
 }
 

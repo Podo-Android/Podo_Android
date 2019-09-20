@@ -3,6 +3,7 @@ package com.meong.podoandroid.ui.home;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.meong.podoandroid.bluetooth.BluetoothService;
+import com.meong.podoandroid.helper.DatabaseHelper;
+import com.meong.podoandroid.helper.DogDBHelper;
 import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.R;
@@ -27,28 +30,37 @@ import java.io.UnsupportedEncodingException;
 public class MainActivity extends AppCompatActivity {
 
     ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg;
+    TextView leg_controll_txt;
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
     BluetoothService bluetooth;
     Handler mBluetoothHandler;
     SQLiteDatabase database;
+    DogDBHelper databaseHelper;
 
     ImageView imgMenu;
     DrawerLayout drawer;
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext=this;
 
         front_right_leg=(ImageView)findViewById(R.id.front_right_leg);
         front_left_leg=(ImageView)findViewById(R.id.front_left_leg);
         end_right_leg=(ImageView)findViewById(R.id.end_right_leg);
         end_left_leg=(ImageView)findViewById(R.id.end_left_leg);
+        leg_controll_txt=(TextView)findViewById(R.id.leg_controll_txt);
 
         bluetooth= new BluetoothService(this);
 
         Switch sw= (Switch)findViewById(R.id.bluetooth_on_off_switch);
+
+        databaseHelper= new DogDBHelper(mContext);
+        database=databaseHelper.getWritableDatabase();
 
         sw.setTextOff("OFF");
         sw.setTextOn("ON");
@@ -57,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         setDrawer();
         setOnBtnClickListener();
         onDrawerItemClickListener();
+
+        insertData("dog_leg","20","15","30","40");
+        insertData("dog_leg","10","20","15","5");
+        leg_compare("dog_leg");
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -180,6 +196,23 @@ public class MainActivity extends AppCompatActivity {
         int front_right=Integer.parseInt(cursor.getString(1));
         int end_left=Integer.parseInt(cursor.getString(2));
         int end_right=Integer.parseInt(cursor.getString(3));
+
+        if(front_left<front_right && front_left<end_left&& front_left<end_right) {
+            front_left_leg.setVisibility(View.VISIBLE);
+            leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.front_left_txt));
+        }
+        else if (front_right<front_left&& front_right<end_left && front_right<end_right) {
+            front_right_leg.setVisibility(View.VISIBLE);
+            leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.front_right_txt));
+        }
+        else if( end_left<front_left && end_left<front_right && end_left<end_right) {
+            end_left_leg.setVisibility(View.VISIBLE);
+            leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.end_left_txt));
+        }
+        else {
+            end_right_leg.setVisibility(View.VISIBLE);
+            leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.end_right_txt));
+        }
 
     }
 }
