@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -18,11 +22,16 @@ import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.R;
 
+import java.io.UnsupportedEncodingException;
+
 public class MainActivity extends AppCompatActivity {
 
     ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg;
     final static int BT_REQUEST_ENABLE = 1;
+    final static int BT_MESSAGE_READ = 2;
     BluetoothService bluetooth;
+    Handler mBluetoothHandler;
+    SQLiteDatabase database;
 
     ImageView imgMenu;
     DrawerLayout drawer;
@@ -60,6 +69,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //블루투스 핸들러로 블루투스 연결 뒤 수신된 데이터를 읽어와 ReceiveData 텍스트 뷰에 표시
+        mBluetoothHandler = new Handler(){
+            public void handleMessage(android.os.Message msg){
+                if(msg.what == BT_MESSAGE_READ){
+                    String readMessage = null;
+                    try {
+                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                   // mTvReceiveData.setText(readMessage);
+                    //여기다 읽어온 값을 처리해 db에 넣는 코드 작성
+                }
+            }
+        };
     }
 
     private void onDrawerItemClickListener() {
@@ -129,5 +154,32 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    //db에 데이타 넣는 함수
+    public void insertData(String tableName, String front_left, String front_right, String end_left, String end_right) {
+        Log.e("msg2", "inserData");
+
+        if(database!= null) {
+            String sql = "insert or replace into "+tableName+"(front_left, front_right, end_left, end_right) values (?, ?, ?, ?)";
+            Object[] params = {front_left, front_right, end_left,end_right};
+            database.execSQL(sql, params);
+        } else{
+            Log.e("msg2","데이터 베이스를 오픈하세요");
+        }
+
+    }
+
+    public void leg_compare(String tableName) {
+        String sql_select = "select front_left, front_right, end_left, end_right from "+tableName;
+        Cursor cursor=database.rawQuery(sql_select,null );
+
+        cursor.moveToLast();
+        int front_left= Integer.parseInt(cursor.getString(0));
+        int front_right=Integer.parseInt(cursor.getString(1));
+        int end_left=Integer.parseInt(cursor.getString(2));
+        int end_right=Integer.parseInt(cursor.getString(3));
+
     }
 }
