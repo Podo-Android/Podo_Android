@@ -23,13 +23,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+
 import com.meong.podoandroid.R;
 import com.meong.podoandroid.bluetooth.BluetoothService;
 import com.meong.podoandroid.data.FeedData;
@@ -42,11 +45,12 @@ import com.meong.podoandroid.ui.map.MapSearchActivity;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg;
-    TextView leg_controll_txt;
+    TextView leg_controll_txt,today_weight,today_weight_obesity;
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
     BluetoothService bluetooth;
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         end_right_leg=(ImageView)findViewById(R.id.end_right_leg);
         end_left_leg=(ImageView)findViewById(R.id.end_left_leg);
         leg_controll_txt=(TextView)findViewById(R.id.leg_controll_txt);
+        today_weight=(TextView)findViewById(R.id.today_weight);
+        today_weight_obesity=(TextView)findViewById(R.id.today_weight_obesity);
+
 
 
         lineChart.setTouchEnabled(true);
@@ -98,19 +105,28 @@ public class MainActivity extends AppCompatActivity {
         onDrawerItemClickListener();
 
 
+
         insertLegData("dog_leg","20","15","30","40");
         insertLegData("dog_leg","10","20","15","5");
         leg_compare("dog_leg");
 
-        insertWeightData("dog_weight","10","16");
-        insertWeightData("dog_weight","20","17");
-        insertWeightData("dog_weight","10","18");
-        insertWeightData("dog_weight","30","19");
-        insertWeightData("dog_weight","40","20");
-        insertWeightData("dog_weight","15","21");
-        insertWeightData("dog_weight","50","22");
+//        insertWeightData("dog_weight","10","2019-09-01");
+//        insertWeightData("dog_weight","10","2019-09-11");
+//        insertWeightData("dog_weight","10","2019-09-15");
+//        insertWeightData("dog_weight","10","2019-09-13");
+//        insertWeightData("dog_weight","10","2019-09-07");
+//        insertWeightData("dog_weight","10","2019-09-16");
+//        insertWeightData("dog_weight","20","2019-09-17");
+//        insertWeightData("dog_weight","10","2019-09-18");
+//        insertWeightData("dog_weight","30","2019-09-19");
+//        insertWeightData("dog_weight","40","2019-09-20");
+//        insertWeightData("dog_weight","15","2019-09-21");
+//        insertWeightData("dog_weight","4","2019-09-22");
         DrawLineChart("dog_weight");
 
+       //delete_table("dog_weight");
+
+        today_weight("dog_weight");
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -270,65 +286,122 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public void DrawLineChart(String tableName) {
-
-        ArrayList<Entry> values = new ArrayList<>();
-        String sql_select = "select weight, date from "+tableName;
+    public void today_weight(String tableName) {
+        String sql_select = "select weight from "+tableName;
         Cursor cursor=database.rawQuery(sql_select,null );
 
+        cursor.moveToLast();
+        today_weight.setText(cursor.getString(0)+"kg");
+        int weight = Integer.parseInt(cursor.getString(0));
 
-        for(int i=0; i<cursor.getCount(); i++) {
-            cursor.moveToNext();
+        if(weight<5) {
+            today_weight_obesity.setText("저체중");
+        }
+        else if(weight>=5 && weight<7) {
+            today_weight_obesity.setText("보통");
+
+        } else{
+            today_weight_obesity.setText("과체중");
+        }
+
+
+    }
+
+    public void DrawLineChart(String tableName) {
+        lineChart.invalidate();
+        lineChart.clear();
+
+        database=databaseHelper.getReadableDatabase();
+
+
+        List<Entry> values = new ArrayList<>();
+//        String sql_select = "select weight, date from "+tableName;
+//        Cursor cursor=database.rawQuery(sql_select,null );
+
+        String sql_select = "SELECT * FROM "+tableName+" Where date >= date('now','weekday 0', '-7 days', 'localtime') AND date <= date('now','weekday 0', '-1 days', 'localtime');";
+        Cursor cursor=database.rawQuery(sql_select,null);
+
+        while(cursor.moveToNext()) {
+
             float weight=Float.parseFloat(cursor.getString(0));
-            float date=Float.parseFloat(cursor.getString(1));
+            long date=Long.parseLong(cursor.getString(1));
             values.add(new Entry(date, weight));
         }
-       // cursor.close();
+        cursor.close();
 
         if (lineChart.getData() != null &&
                 lineChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            lineChart.getData().notifyDataChanged();
-            lineChart.notifyDataSetChanged();
+//            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
+//            set1.setValues(values);
+//            lineChart.getData().notifyDataChanged();
+//            lineChart.notifyDataSetChanged();
         } else {
-            set1 = new LineDataSet(values, "몸무게 그래프");
-            set1.setDrawIcons(false);
-//            set1.enableDashedLine(10f, 5f, 0f);
-//            set1.enableDashedHighlightLine(10f, 5f, 0f);
-            XAxis xAxis = lineChart.getXAxis();
-            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-            YAxis yAxisRight = lineChart.getAxisRight();
+            set1 = new LineDataSet(values, "weight");
+            set1.setAxisDependency(YAxis.AxisDependency.LEFT);
+            set1.setHighlightEnabled(true);
+            set1.setLineWidth(2);
+            set1.setColor(R.color.point_pink);
+            set1.setCircleColor(R.color.buttonpress);
+            set1.setCircleRadius(4);
+            set1.setCircleHoleRadius(2);
+            set1.setDrawHighlightIndicators(true);
+            set1.setHighLightColor(Color.RED);
+            set1.setValueTextSize(7);
+            set1.setValueTextColor(Color.DKGRAY);
+            YAxis yAxisRight = lineChart.getAxisRight(); //Y축의 오른쪽면 설정
             yAxisRight.setDrawLabels(false);
+            yAxisRight.setDrawAxisLine(false);
+            yAxisRight.setDrawGridLines(false);
+            XAxis xAxis = lineChart.getXAxis(); // x 축 설정
+            //  xAxis.setPosition(XAxis.XAxisPosition.TOP); //x 축 표시에 대한 위치 설정
+            //xAxis.setValueFormatter(new ChartXValueFormatter()); //X축의 데이터를 제 가공함. new ChartXValueFormatter은 Custom한 소스
+            xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
 
-            set1.setColor(Color.DKGRAY);
-            set1.setCircleColor(Color.DKGRAY);
-            set1.setLineWidth(1f);
-            set1.setCircleRadius(3f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(6f);
-            set1.setDrawFilled(true);
-            set1.setFormLineWidth(1f);
 
-            lineChart.setDescription(null);
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
 
-            set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-            set1.setFormSize(15.f);
-            if (Utils.getSDKInt() >= 18) {
-                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_blue);
-                set1.setFillDrawable(drawable);
-            } else {
-                set1.setFillColor(Color.DKGRAY);
-            }
-            ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-            dataSets.add(set1);
-            LineData data = new LineData(dataSets);
-            lineChart.setData(data);
+                        return labels[(int)value%labels.length];
+
+                }
+            });
+
+            LineData lineData = new LineData(set1);
+            lineChart.getDescription().setText("");
+            lineChart.getDescription().setTextSize(10);
+            lineChart.setDrawMarkers(true);
+            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            lineChart.animateY(1000);
+            lineChart.getXAxis().setGranularityEnabled(true);
+            lineChart.getXAxis().setGranularity(1.0f);
+            lineChart.getXAxis().setLabelCount(set1.getEntryCount());
+            lineChart.setData(lineData);
+
+
         }
     }
 
+//    public class MyXAxisValueFormatter implements IAxisValueFormatter{
+//        private String[] mValues;
+//
+//        public MyXAxisValueFormatter(String[] values) {
+//            this.mValues= values;
+//        }
+//        @Override
+//        public String getFormattedValue(float value, AxisBase axis) {
+//           return mValues[(int) value];
+//        }
+//
+//
+//    }
 
+
+    public void delete_table(String tableName) {
+        String sql_select = "delete from "+tableName;
+        database.execSQL(sql_select);
+
+    }
 
 }

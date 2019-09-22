@@ -234,27 +234,29 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="63dp"
+                                android:layout_marginLeft="55dp"
                                 android:layout_marginTop="25.4dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
                                 android:letterSpacing="0.05"
-                                android:lineSpacingExtra="2.4sp"
+                                android:lineSpacingExtra="3sp"
                                 android:text="체중"
                                 android:textColor="#a3866f"
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:id="@+id/today_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="51dp"
+                                android:layout_marginLeft="50dp"
                                 android:layout_marginTop="25.5dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
@@ -263,27 +265,28 @@
                                 android:text="4.1 kg"
                                 android:textColor="#606060"
                                 android:textSize="15sp" />
+
                         </LinearLayout>
 
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="86dp"
-                            android:layout_marginLeft="30dp"
-                            android:layout_marginTop="25dp"
+                            android:layout_gravity="center"
                             android:background="@drawable/main_slash" />
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical">
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="31.7dp"
                                 android:layout_marginTop="25.4dp"
+                                android:layout_marginRight="10dp"
                                 android:fontFamily="@font/nanum_square_regular"
-                                android:gravity="center_horizontal"
                                 android:letterSpacing="0.05"
                                 android:lineSpacingExtra="2.4sp"
                                 android:text="비만도"
@@ -291,10 +294,11 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:id="@+id/today_weight_obesity"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="34.2dp"
                                 android:layout_marginTop="25.5dp"
+                                android:layout_marginRight="8dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
                                 android:letterSpacing="0.05"
@@ -464,12 +468,12 @@
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-        <include
+        <!--<include
                 android:id="@+id/nav_view"
                 layout="@layout/nav_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:fitsSystemWindows="true" />
+                android:fitsSystemWindows="true" />-->
         </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>

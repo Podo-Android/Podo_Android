@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 public class DogDBHelper extends SQLiteOpenHelper {
     public DogDBHelper( Context context) {
-        super(context,"dog.db",null,4);
+        super(context,"dog.db",null,11);
     }
 
     @Override
