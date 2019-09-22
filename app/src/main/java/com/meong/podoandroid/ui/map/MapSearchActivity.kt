@@ -139,13 +139,21 @@ class MapSearchActivity : AppCompatActivity() {
             locationItems.value = listOf()
             et_map_search_act_location.text.clear()
         }
+
+        img_map_search_act_back.setOnClickListener {
+            finish()
+        }
     }
 
     private fun recyclerViewItemClicked(item: GetLocationListResponseData ){
         var item = StoreItem(item.place_name,item.y!!.toFloat(), item.x!!.toFloat(),item.address_name)
 
         val intent : Intent = Intent()
-        intent.putExtra("storeItem",item)
+        intent.putExtra("lat",item.latitude)
+        intent.putExtra("lon",item.longtitude)
+        intent.putExtra("name",item.name)
+        intent.putExtra("address",item.address)
+
         setResult(Activity.RESULT_OK,intent)
         finish()
     }

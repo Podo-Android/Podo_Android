@@ -19,16 +19,8 @@ public class StoreItem implements Parcelable {
 
     protected StoreItem(Parcel in) {
         name = in.readString();
-        if (in.readByte() == 0) {
-            latitude = null;
-        } else {
-            latitude = in.readFloat();
-        }
-        if (in.readByte() == 0) {
-            longtitude = null;
-        } else {
-            longtitude = in.readFloat();
-        }
+        latitude = in.readFloat();
+        longtitude = in.readFloat();
         address = in.readString();
     }
 
@@ -99,14 +91,12 @@ public class StoreItem implements Parcelable {
         if (latitude == null) {
             parcel.writeByte((byte) 0);
         } else {
-            parcel.writeByte((byte) 1);
             parcel.writeFloat(latitude);
         }
 
         if (longtitude == null) {
             parcel.writeByte((byte) 0);
         } else {
-            parcel.writeByte((byte) 1);
             parcel.writeFloat(longtitude);
         }
     }
