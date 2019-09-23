@@ -256,7 +256,7 @@
                                 android:id="@+id/today_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="50dp"
+                                android:layout_marginLeft="53dp"
                                 android:layout_marginTop="25.5dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
@@ -392,6 +392,7 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/arrow_left"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
                                 android:layout_marginLeft="150dp"
@@ -400,13 +401,15 @@
 
                             </ImageView>
                             <TextView
+                                android:id="@+id/month_txt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="30dp"
-                                android:text="8월">
+                                android:text="9월">
 
                             </TextView>
                             <ImageView
+                                android:id="@+id/arrow_right"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
                                 android:layout_marginLeft="30dp"
@@ -418,30 +421,51 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/month_aver_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="7kg"
+                            android:text="4kg"
                             android:textSize="40sp"
                             android:layout_marginTop="22.3dp">
 
                         </TextView>
                     <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                    <LinearLayout
+                        android:layout_width="310dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal">
+                    <RelativeLayout
                         android:layout_width="304dp"
                         android:layout_height="15dp"
                         android:layout_gravity="center"
                         android:background="@drawable/main_weightbar">
-                    </LinearLayout>
+                    </RelativeLayout>
+
                         <ImageView
+                            android:id="@+id/sign_center"
                             android:layout_width="26dp"
                             android:layout_height="26dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/sickpoint">
+                            android:visibility="visible"
+                            android:background="@drawable/sickpoint"/>
+                        <ImageView
+                            android:id="@+id/sign_start"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/sickpoint"/>
+                        <ImageView
+                            android:id="@+id/sign_end"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/sickpoint"/>
 
-                        </ImageView>
+
                     </FrameLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -468,12 +492,12 @@
                 </LinearLayout>
             </ScrollView>
         </RelativeLayout>
-        <!--<include
+        <include
                 android:id="@+id/nav_view"
                 layout="@layout/nav_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:fitsSystemWindows="true" />-->
+                android:fitsSystemWindows="true" />
         </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>

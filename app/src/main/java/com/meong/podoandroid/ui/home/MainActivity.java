@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 
+
 import com.meong.podoandroid.R;
 import com.meong.podoandroid.bluetooth.BluetoothService;
 import com.meong.podoandroid.data.FeedData;
@@ -49,8 +51,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg;
-    TextView leg_controll_txt,today_weight,today_weight_obesity;
+    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg, arrow_left,arrow_right;
+    TextView leg_controll_txt,today_weight,today_weight_obesity, month_txt, month_aver_txt;
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
     BluetoothService bluetooth;
@@ -58,13 +60,16 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase database;
     DogDBHelper databaseHelper;
 
-    ImageView imgMenu;
+
+    ImageView imgMenu, sign_start, sign_center, sign_end;
     DrawerLayout drawer;
 
     private Context mContext;
 
     LineChart lineChart;
     LineDataSet set1;
+
+    int num=9;
 
 
 
@@ -76,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
         lineChart= (LineChart)findViewById(R.id.line_chart);
 
+        sign_start=(ImageView)findViewById(R.id.sign_start);
+        sign_center=(ImageView)findViewById(R.id.sign_center);
+        sign_end=(ImageView)findViewById(R.id.sign_end);
+        arrow_left=(ImageView)findViewById(R.id.arrow_left);
+        arrow_right=(ImageView)findViewById(R.id.arrow_right);
         front_right_leg=(ImageView)findViewById(R.id.front_right_leg);
         front_left_leg=(ImageView)findViewById(R.id.front_left_leg);
         end_right_leg=(ImageView)findViewById(R.id.end_right_leg);
@@ -83,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         leg_controll_txt=(TextView)findViewById(R.id.leg_controll_txt);
         today_weight=(TextView)findViewById(R.id.today_weight);
         today_weight_obesity=(TextView)findViewById(R.id.today_weight_obesity);
+        month_txt=(TextView)findViewById(R.id.month_txt);
+        month_aver_txt=(TextView)findViewById(R.id.month_aver_txt);
+
 
 
 
@@ -106,27 +119,37 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         insertLegData("dog_leg","20","15","30","40");
         insertLegData("dog_leg","10","20","15","5");
         leg_compare("dog_leg");
 
-//        insertWeightData("dog_weight","10","2019-09-01");
-//        insertWeightData("dog_weight","10","2019-09-11");
-//        insertWeightData("dog_weight","10","2019-09-15");
-//        insertWeightData("dog_weight","10","2019-09-13");
-//        insertWeightData("dog_weight","10","2019-09-07");
-//        insertWeightData("dog_weight","10","2019-09-16");
-//        insertWeightData("dog_weight","20","2019-09-17");
-//        insertWeightData("dog_weight","10","2019-09-18");
-//        insertWeightData("dog_weight","30","2019-09-19");
-//        insertWeightData("dog_weight","40","2019-09-20");
-//        insertWeightData("dog_weight","15","2019-09-21");
-//        insertWeightData("dog_weight","4","2019-09-22");
+        insertWeightData("dog_weight","10","2019-09-01");
+        insertWeightData("dog_weight","10","2019-09-11");
+        insertWeightData("dog_weight","10","2019-09-15");
+        insertWeightData("dog_weight","10","2019-09-13");
+        insertWeightData("dog_weight","10","2019-09-07");
+        insertWeightData("dog_weight","10","2019-09-16");
+        insertWeightData("dog_weight","20","2019-09-17");
+        insertWeightData("dog_weight","10","2019-09-18");
+        insertWeightData("dog_weight","30","2019-09-19");
+        insertWeightData("dog_weight","40","2019-09-20");
+        insertWeightData("dog_weight","15","2019-09-21");
+        insertWeightData("dog_weight","4","2019-09-22");
         DrawLineChart("dog_weight");
 
        //delete_table("dog_weight");
 
         today_weight("dog_weight");
+
+        insertMonthWeightData("9","4");
+        insertMonthWeightData("8","3");
+        insertMonthWeightData("7","6");
+        insertMonthWeightData("6","9");
+
+        up_down_month();
+
+
 
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -294,10 +317,10 @@ public class MainActivity extends AppCompatActivity {
         today_weight.setText(cursor.getString(0)+"kg");
         int weight = Integer.parseInt(cursor.getString(0));
 
-        if(weight<5) {
+        if(weight<4) {
             today_weight_obesity.setText("저체중");
         }
-        else if(weight>=5 && weight<7) {
+        else if(weight>=4 && weight<6) {
             today_weight_obesity.setText("보통");
 
         } else{
@@ -355,18 +378,18 @@ public class MainActivity extends AppCompatActivity {
             XAxis xAxis = lineChart.getXAxis(); // x 축 설정
             //  xAxis.setPosition(XAxis.XAxisPosition.TOP); //x 축 표시에 대한 위치 설정
             //xAxis.setValueFormatter(new ChartXValueFormatter()); //X축의 데이터를 제 가공함. new ChartXValueFormatter은 Custom한 소스
-            xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
-
-
-            xAxis.setValueFormatter(new IAxisValueFormatter() {
-                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
-                @Override
-                public String getFormattedValue(float value, AxisBase axis) {
-
-                        return labels[(int)value%labels.length];
-
-                }
-            });
+//            xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
+//
+//
+//            xAxis.setValueFormatter(new IAxisValueFormatter() {
+//                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+//                @Override
+//                public String getFormattedValue(float value, AxisBase axis) {
+//
+//                        return labels[(int)value%labels.length];
+//
+//                }
+//            });
 
             LineData lineData = new LineData(set1);
             lineChart.getDescription().setText("");
@@ -396,6 +419,99 @@ public class MainActivity extends AppCompatActivity {
 //
 //
 //    }
+
+
+    public void up_down_month() {
+
+
+        arrow_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num--;
+               if(num>0) {
+                   String month = Integer.toString(num);
+                   month_txt.setText(month+"월");
+                   month_aver_compare("month_data",month);
+                   month_aver_txt.setTextSize(40);
+               } else {
+                   num=12;
+                   String month = Integer.toString(num);
+                   month_txt.setText(month+"월");
+                   month_aver_compare("month_data",month);
+                   month_aver_txt.setTextSize(40);
+               }
+            }
+        });
+
+        arrow_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                num++;
+                if(num<10) {
+                    String month=Integer.toString(num);
+                    month_txt.setText(month+"월");
+                    month_aver_compare("month_data",month);
+                    month_aver_txt.setTextSize(40);
+                } else if(10<=num&& num<13) {
+                    String month=Integer.toString(num);
+                    month_txt.setText(month+"월");
+                    month_aver_txt.setText("아직 데이터가 없습니다");
+                    month_aver_txt.setTextSize(12);
+                    sign_center.setVisibility(View.GONE);
+                }else {
+                    num=1;
+                    String month=Integer.toString(num);
+                    month_txt.setText(month+"월");
+                    month_aver_txt.setText("아직 데이터가 없습니다");
+                    month_aver_txt.setTextSize(12);
+                    sign_center.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    public void insertMonthWeightData(String month, String weight_aver) {
+
+        if(database!= null) {
+            String sql = "insert or replace into month_data(month, weight_aver) values (?, ?)";
+            Object[] params = {month, weight_aver};
+            database.execSQL(sql, params);
+        } else{
+            Log.e("msg2","데이터 베이스를 오픈하세요");
+        }
+    }
+
+    public void month_aver_compare(String tableName, String mon) {
+
+
+        String sql_select = "select weight_aver from "+tableName+" where month = '"+mon+"'";
+        Cursor cursor=database.rawQuery(sql_select,null );
+
+       // if(cursor!=null && cursor.getCount()>0) {
+            cursor.moveToFirst();
+            month_aver_txt.setText(cursor.getString(0) + "kg");
+        //}
+        int weight = Integer.parseInt(cursor.getString(0));
+
+        if(weight<4) {
+            sign_start.setVisibility(View.VISIBLE);
+            sign_center.setVisibility(View.GONE);
+            sign_end.setVisibility(View.GONE);
+        }
+        else if(weight>=4 && weight<6) {
+            sign_center.setVisibility(View.VISIBLE);
+            sign_end.setVisibility(View.GONE);
+            sign_start.setVisibility(View.GONE);
+
+        } else{
+            sign_end.setVisibility(View.VISIBLE);
+            sign_start.setVisibility(View.GONE);
+            sign_center.setVisibility(View.GONE);
+        }
+
+
+    }
+
 
 
     public void delete_table(String tableName) {
