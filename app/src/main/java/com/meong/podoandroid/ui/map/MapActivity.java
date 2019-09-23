@@ -106,7 +106,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                         focusToCurPosition(currentPosition);
 
-                        selectStoreData();
+                        selectStoreData(currentPosition);
                     }
                 }
             }
@@ -128,14 +128,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void insertStoreData() {
         ArrayList<StoreItem> items = new ArrayList<>();
 
+        //한성대학교
         items.add(new StoreItem("베스트동물병원", (float) 37.5909, (float) 127.0100, "서울특별시 성북구 동소문동3가 32"));
         items.add(new StoreItem("서울종합동물병원", (float) 37.5888, (float) 127.0181, "서울특별시 성북구 보문동1가 9-1"));
         items.add(new StoreItem("대학로동물병원", (float) 37.5857, (float) 127.0003, "서울특별시 종로구 명륜2가 14-1"));
 
+        //홍대
+        items.add(new StoreItem("마리동물병원", (float) 37.558603, (float)126.928186, "서울특별시 마포구 동교동"));
+        items.add(new StoreItem("파티마동물병원", (float)37.558418, (float)126.929008, "서울특별시 마포구 동교동 179-1"));
+        items.add(new StoreItem("워너비동물병원", (float) 37.558525, (float)126.922513, "서울특별시 마포구 서교동 동교로 193"));
+        items.add(new StoreItem("아프리카동물종합병원", (float)37.556991, (float)126.919976, "서울특별시 마포구 서교동 445-3"));
+
         MapDBHelper.insertStoreData(items);
     }
 
-    private void selectStoreData() {
+    private void selectStoreData(LatLng currentPosition) {
 
         ArrayList<StoreItem> items = MapDBHelper.storeSelect("store");
 
@@ -156,7 +163,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             locationNew.setLongitude(items.get(i).getLongtitude());
 
             distance = locationNow.distanceTo(locationNew) / 1000; //in km
-            if (distance < 1.3) { //1.3 km 내의 마커만 띄웁니다.
+            if (distance < 1) { //1 km 내의 마커만 띄웁니다.
 
                 LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
 
@@ -223,7 +230,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         CircleOptions circleOptions = new CircleOptions();
 
         circleOptions.center(latlng)
-                .radius(1300.0)
+                .radius(1000.0)
                 .strokeColor(getResources().getColor(R.color.point_pink))
                 .fillColor(Color.parseColor("#4de1b2a3"))
                 .strokeWidth(1);
@@ -231,7 +238,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mCircle = googleMap.addCircle(circleOptions);
         circleflag = true;
 
-        selectStoreData();
+        selectStoreData(currentPosition);
     }
 
 
@@ -283,9 +290,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onSuccess(Location location) {
                         if (location != null) {
-                            Log.e(TAG, "location get fail");
-                        } else {
                             Log.d(TAG, "" + location.getLatitude() + "," + location.getLongitude());
+                        } else {
+                            Log.e(TAG, "location get fail");
                         }
                     }
                 }).addOnFailureListener(this, new OnFailureListener() {
@@ -298,7 +305,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(60 * 1000);
+        locationRequest.setInterval(600 * 1000);
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
     }
@@ -399,6 +406,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 StoreItem storeItem = new StoreItem(name, lat, lon, address);
 
                 mMap.clear();
+                selectStoreData(new LatLng(storeItem.getLatitude(),storeItem.getLongtitude()));
                 floatSearchResultMarker(storeItem);
             }
         }
