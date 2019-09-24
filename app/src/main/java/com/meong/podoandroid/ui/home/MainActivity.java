@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -47,6 +48,7 @@ import com.meong.podoandroid.ui.map.MapSearchActivity;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
         insertWeightData("dog_weight","40","2019-09-20");
         insertWeightData("dog_weight","15","2019-09-21");
         insertWeightData("dog_weight","4","2019-09-22");
-        DrawLineChart("dog_weight");
+        DrawLineChart();
 
        //delete_table("dog_weight");
 
@@ -330,81 +332,97 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void DrawLineChart(String tableName) {
+    public void DrawLineChart() {
         lineChart.invalidate();
         lineChart.clear();
 
-        database=databaseHelper.getReadableDatabase();
+     //   database=databaseHelper.getReadableDatabase();
 
 
         List<Entry> values = new ArrayList<>();
+        values.add(new Entry(16,4));
+        values.add(new Entry(17,2));
+        values.add(new Entry(18,7));
+        values.add(new Entry(19,6));
+        values.add(new Entry(20,5));
+        values.add(new Entry(21,7));
+        values.add(new Entry(22,2));
+
+        LineDataSet lineDataSet = new LineDataSet(values,"weight"); //LineDataSet 선언
+        lineDataSet.setColor(getApplicationContext().getResources().getColor(R.color.line_circle)); //LineChart에서 Line Color 설정
+        lineDataSet.setCircleColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // LineChart에서 Line Circle Color 설정
+
+        LineData lineData = new LineData(); //LineDataSet을 담는 그릇 여러개의 라인 데이터가 들어갈 수 있습니다.
+        lineData.addDataSet(lineDataSet);
+
+        lineData.setValueTextColor(getApplicationContext().getResources().getColor(R.color.line_circle)); //라인 데이터의 텍스트 컬러 설정
+        lineData.setValueTextSize(9);
+
+        XAxis xAxis = lineChart.getXAxis(); // x 축 설정
+        final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x 축 표시에 대한 위치 설정
+
+            //X축의 데이터를 제 가공함. new ChartXValueFormatter은 Custom한 소스
+        xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
+        xAxis.setTextColor(getApplicationContext().getResources().getColor(R.color.colorTextGray)); // X축 텍스트컬러설정
+        xAxis.setGridColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // X축 줄의 컬러 설정
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        YAxis yAxisLeft = lineChart.getAxisLeft(); //Y축의 왼쪽면 설정
+        yAxisLeft.setTextColor(getApplicationContext().getResources().getColor(R.color.colorTextGray)); //Y축 텍스트 컬러 설정
+        yAxisLeft.setGridColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // Y축 줄의 컬러 설정
+
+        YAxis yAxisRight = lineChart.getAxisRight(); //Y축의 오른쪽면 설정
+        yAxisRight.setDrawLabels(false);
+        yAxisRight.setDrawAxisLine(false);
+        yAxisRight.setDrawGridLines(false);
+        //y축의 활성화를 제거함
+
+       // lineChart.setVisibleXRangeMinimum(60 * 60 * 24 * 1000 * 5); //라인차트에서 최대로 보여질 X축의 데이터 설정
+        lineChart.setDescription(null); //차트에서 Description 설정 저는 따로 안했습니다.
+
+        Legend legend = lineChart.getLegend(); //레전드 설정 (차트 밑에 색과 라벨을 나타내는 설정)
+     //   legend.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);//하단 왼쪽에 설정
+        legend.setTextColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // 레전드 컬러 설정
+
+        lineChart.setData(lineData);
+
+
 //        String sql_select = "select weight, date from "+tableName;
 //        Cursor cursor=database.rawQuery(sql_select,null );
 
-        String sql_select = "SELECT * FROM "+tableName+" Where date >= date('now','weekday 0', '-7 days', 'localtime') AND date <= date('now','weekday 0', '-1 days', 'localtime');";
-        Cursor cursor=database.rawQuery(sql_select,null);
+//        String sql_select = "SELECT * FROM "+tableName+" Where date >= date('now','weekday 0', '-7 days', 'localtime') AND date <= date('now','weekday 0', '-1 days', 'localtime');";
+//        Cursor cursor=database.rawQuery(sql_select,null);
+//
+//        while(cursor.moveToNext()) {
+//
+//            float weight=Float.parseFloat(cursor.getString(0));
+//            long date=Long.parseLong(cursor.getString(1));
+//            values.add(new Entry(date, weight));
+//        }
+//        cursor.close();
 
-        while(cursor.moveToNext()) {
 
-            float weight=Float.parseFloat(cursor.getString(0));
-            long date=Long.parseLong(cursor.getString(1));
-            values.add(new Entry(date, weight));
-        }
-        cursor.close();
-
-        if (lineChart.getData() != null &&
-                lineChart.getData().getDataSetCount() > 0) {
-//            set1 = (LineDataSet) lineChart.getData().getDataSetByIndex(0);
-//            set1.setValues(values);
-//            lineChart.getData().notifyDataChanged();
-//            lineChart.notifyDataSetChanged();
-        } else {
-            set1 = new LineDataSet(values, "weight");
-            set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-            set1.setHighlightEnabled(true);
-            set1.setLineWidth(2);
-            set1.setColor(R.color.point_pink);
-            set1.setCircleColor(R.color.buttonpress);
-            set1.setCircleRadius(4);
-            set1.setCircleHoleRadius(2);
-            set1.setDrawHighlightIndicators(true);
-            set1.setHighLightColor(Color.RED);
-            set1.setValueTextSize(7);
-            set1.setValueTextColor(Color.DKGRAY);
-            YAxis yAxisRight = lineChart.getAxisRight(); //Y축의 오른쪽면 설정
-            yAxisRight.setDrawLabels(false);
-            yAxisRight.setDrawAxisLine(false);
-            yAxisRight.setDrawGridLines(false);
-            XAxis xAxis = lineChart.getXAxis(); // x 축 설정
+          //  XAxis xAxis = lineChart.getXAxis(); // x 축 설정
             //  xAxis.setPosition(XAxis.XAxisPosition.TOP); //x 축 표시에 대한 위치 설정
             //xAxis.setValueFormatter(new ChartXValueFormatter()); //X축의 데이터를 제 가공함. new ChartXValueFormatter은 Custom한 소스
 //            xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
 //
 //
-//            xAxis.setValueFormatter(new IAxisValueFormatter() {
-//                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
-//                @Override
-//                public String getFormattedValue(float value, AxisBase axis) {
-//
-//                        return labels[(int)value%labels.length];
-//
-//                }
-//            });
+          /*  xAxis.setValueFormatter(new IAxisValueFormatter() {
+                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
 
-            LineData lineData = new LineData(set1);
-            lineChart.getDescription().setText("");
-            lineChart.getDescription().setTextSize(10);
-            lineChart.setDrawMarkers(true);
-            lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-            lineChart.animateY(1000);
-            lineChart.getXAxis().setGranularityEnabled(true);
-            lineChart.getXAxis().setGranularity(1.0f);
-            lineChart.getXAxis().setLabelCount(set1.getEntryCount());
-            lineChart.setData(lineData);
+                        return labels[(int)value%labels.length];
+
+                }
+            });
+*/
 
 
         }
-    }
+
 
 //    public class MyXAxisValueFormatter implements IAxisValueFormatter{
 //        private String[] mValues;
@@ -518,6 +536,39 @@ public class MainActivity extends AppCompatActivity {
         String sql_select = "delete from "+tableName;
         database.execSQL(sql_select);
 
+    }
+
+    public class IndexAxisValueFormatter implements IAxisValueFormatter {
+
+        private String[] mValues= new String[] {};
+        private int mValueCount = 0;
+        public IndexAxisValueFormatter(String[] values) {
+            if(values != null) {
+                setValues(values);
+            }
+        }
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+           int index= Math.round(value);
+
+           if(index < 0 || index >= mValueCount|| index != (int)value)
+               return "";
+
+            return mValues[index];
+        }
+
+        public String[] getValues()
+        {
+            return mValues;
+        }
+        public void setValues(String[] values)
+        {
+            if(values==null)
+                values=new String[] {};
+
+            this.mValues=values;
+            this.mValueCount=values.length;
+        }
     }
 
 }
