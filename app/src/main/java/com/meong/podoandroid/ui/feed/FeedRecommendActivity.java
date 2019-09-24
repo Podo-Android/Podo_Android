@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,7 +26,7 @@ import com.meong.podoandroid.R;
 import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.ui.deco.HorizontalSpaceItemDecoration;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
-import com.meong.podoandroid.ui.menu.MainActivity;
+import com.meong.podoandroid.ui.home.MainActivity;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
     DrawerLayout drawer;
     ImageView imgMenu, backButton;
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,6 +211,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
 
     }
 
+    //menu 코드
     private void setDrawer() {
         drawer = (DrawerLayout) findViewById(R.id.drawer_feed_act);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -275,6 +278,9 @@ public class FeedRecommendActivity extends AppCompatActivity {
 
         mRecyclerview.setAdapter(adapter);
     }
+
+
+
 
 }
 

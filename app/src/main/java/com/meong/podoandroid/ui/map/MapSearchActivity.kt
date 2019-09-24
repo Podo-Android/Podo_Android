@@ -25,7 +25,7 @@ import com.meong.podoandroid.network.NetworkService
 import com.meong.podoandroid.ui.feed.FeedRecommendActivity
 import com.meong.podoandroid.ui.map.get.GetLocationListResponse
 import com.meong.podoandroid.ui.map.get.GetLocationListResponseData
-import com.meong.podoandroid.ui.menu.MainActivity
+import com.meong.podoandroid.ui.home.MainActivity
 import kotlinx.android.synthetic.main.activity_map_search.*
 import kotlinx.android.synthetic.main.nav_main.*
 import org.jetbrains.anko.startActivity

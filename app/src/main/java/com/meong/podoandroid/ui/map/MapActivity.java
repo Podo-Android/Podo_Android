@@ -41,7 +41,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.meong.podoandroid.data.StoreItem;
 import com.meong.podoandroid.helper.MapDBHelper;
-import com.meong.podoandroid.ui.menu.MainActivity;
+import com.meong.podoandroid.ui.home.MainActivity;
 import com.meong.podoandroid.R;
 
 import java.io.IOException;
