@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -37,7 +43,6 @@ import com.github.mikephil.charting.utils.Utils;
 
 
 import com.meong.podoandroid.R;
-import com.meong.podoandroid.bluetooth.BluetoothService;
 import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.helper.DatabaseHelper;
 import com.meong.podoandroid.helper.DogDBHelper;
@@ -45,20 +50,36 @@ import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
     ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg, arrow_left,arrow_right;
     TextView leg_controll_txt,today_weight,today_weight_obesity, month_txt, month_aver_txt;
+
+    BluetoothAdapter mBluetoothAdapter;
+    Set<BluetoothDevice> mPairedDevices;
+    List<String> mListPairedDevices;
+
+    public Handler mBluetoothHandler;
+    ConnectedBluetoothThread mThreadConnectedBluetooth;
+    BluetoothDevice mBluetoothDevice;
+    BluetoothSocket mBluetoothSocket;
+
     final static int BT_REQUEST_ENABLE = 1;
     final static int BT_MESSAGE_READ = 2;
-    BluetoothService bluetooth;
-    Handler mBluetoothHandler;
+    final static int BT_CONNECTING_STATUS = 3;
+    final static UUID BT_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
     SQLiteDatabase database;
     DogDBHelper databaseHelper;
 
@@ -73,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     int num=9;
 
+    String readMessage;
 
 
     @Override
@@ -98,13 +120,13 @@ public class MainActivity extends AppCompatActivity {
         month_txt=(TextView)findViewById(R.id.month_txt);
         month_aver_txt=(TextView)findViewById(R.id.month_aver_txt);
 
-
+        //getDefaultAdapter메소드-> 해당 장치가 블루투스 기능을 지원하는지 알아오는 메소드
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
 
         lineChart.setTouchEnabled(true);
         lineChart.setPinchZoom(true);
 
-        bluetooth= new BluetoothService(this);
 
         Switch sw= (Switch)findViewById(R.id.bluetooth_on_off_switch);
 
@@ -121,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-        insertLegData("dog_leg","20","15","30","40");
-        insertLegData("dog_leg","10","20","15","5");
-        leg_compare("dog_leg");
+//
+//        insertLegData("dog_leg","20","15","30","40");
+//        insertLegData("dog_leg","10","20","15","5");
+//        leg_compare("dog_leg");
 
         insertWeightData("dog_weight","10","2019-09-01");
         insertWeightData("dog_weight","10","2019-09-11");
@@ -157,10 +179,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked) {
-                    bluetooth.bluetoothOn();
+                    bluetoothOn();
                 }
                 else{
-                    bluetooth.bluetoothOff();
+                    bluetoothOff();
                 }
             }
         });
@@ -169,15 +191,26 @@ public class MainActivity extends AppCompatActivity {
         mBluetoothHandler = new Handler(){
             public void handleMessage(android.os.Message msg){
                 if(msg.what == BT_MESSAGE_READ){
-                    String readMessage = null;
+                    Log.d("bt","블루투스 연결됨");
+                     readMessage = null;
                     try {
                         readMessage = new String((byte[]) msg.obj, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                    // mTvReceiveData.setText(readMessage);
-                    //여기다 읽어온 값을 처리해 db에 넣는 코드 작성
-                    //몸무게를 잰 것은 오늘 날짜도 처리해서 같이 넘겨줘야함
+                    String Message= String.valueOf(readMessage.charAt(0));
+
+                  //  Toast.makeText(getApplicationContext(),Message, Toast.LENGTH_LONG).show();
+                    //new Thread(new Runnable() {
+                      //  @Override
+                      //  public void run() {
+                            Log.d("bt",Message);
+                            leg_compare(Message);
+
+                    //    }
+                //    }).start();
+
                 }
             }
         };
@@ -236,25 +269,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //블루투스 활성화 결과를 위한 메소드드
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case BT_REQUEST_ENABLE:
-                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
-                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
-                    bluetooth.listPairedDevices();
-                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
-                    Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
 
     //db에 데이타 넣는 함수
-    public void insertLegData(String tableName, String front_left, String front_right, String end_left, String end_right) {
+   /* public void insertLegData(String tableName, String front_left, String front_right, String end_left, String end_right) {
         Log.d("msg2", "insert leg Data");
 
         if(database!= null) {
@@ -265,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e("msg2","데이터 베이스를 오픈하세요");
         }
 
-    }
+    }*/
 
     public void insertWeightData(String tableName, String weight, String date) {
         Log.d("msg2","insert weight data");
@@ -282,31 +299,45 @@ public class MainActivity extends AppCompatActivity {
                 }
     }
 
-    public void leg_compare(String tableName) {
-        String sql_select = "select front_left, front_right, end_left, end_right from "+tableName;
+    public void leg_compare(String leg_name) {
+      /*  String sql_select = "select front_left, front_right, end_left, end_right from "+tableName;
         Cursor cursor=database.rawQuery(sql_select,null );
 
         cursor.moveToLast();
         int front_left= Integer.parseInt(cursor.getString(0));
         int front_right=Integer.parseInt(cursor.getString(1));
         int end_left=Integer.parseInt(cursor.getString(2));
-        int end_right=Integer.parseInt(cursor.getString(3));
+        int end_right=Integer.parseInt(cursor.getString(3));*/
 
-        if(front_left<front_right && front_left<end_left&& front_left<end_right) {
+      switch (leg_name){
+        case "3":
             front_left_leg.setVisibility(View.VISIBLE);
+            front_right_leg.setVisibility(View.GONE);
+            end_right_leg.setVisibility(View.GONE);
+            end_left_leg.setVisibility(View.GONE);
             leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.front_left_txt));
-        }
-        else if (front_right<front_left&& front_right<end_left && front_right<end_right) {
+            break;
+          case "1":
             front_right_leg.setVisibility(View.VISIBLE);
+            front_left_leg.setVisibility(View.GONE);
+            end_left_leg.setVisibility(View.GONE);
+            end_right_leg.setVisibility(View.GONE);
             leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.front_right_txt));
-        }
-        else if( end_left<front_left && end_left<front_right && end_left<end_right) {
+            break;
+          case "4":
             end_left_leg.setVisibility(View.VISIBLE);
+            end_right_leg.setVisibility(View.GONE);
+            front_left_leg.setVisibility(View.GONE);
+            front_right_leg.setVisibility(View.GONE);
             leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.end_left_txt));
-        }
-        else {
+            break;
+          case "2":
             end_right_leg.setVisibility(View.VISIBLE);
+            end_left_leg.setVisibility(View.GONE);
+            front_right_leg.setVisibility(View.GONE);
+            front_left_leg.setVisibility(View.GONE);
             leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.end_right_txt));
+            break;
         }
 
     }
@@ -571,4 +602,174 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void bluetoothOn() {
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "블루투스를 지원하지 않는 기기입니다.", Toast.LENGTH_LONG).show();
+        } else {
+            if (mBluetoothAdapter.isEnabled()) {
+                Toast.makeText(getApplicationContext(), "블루투스가 이미 활성화 되어 있습니다.", Toast.LENGTH_LONG).show();
+            } else { //블루투스 비활성화 상태
+
+                //ACTION_REQUEST_ENABLE 로 지정하여 Intent를 발생시키면 사용자에게 블루투스 활성 여부를 묻는 다이얼로그가 뜸
+                Intent intentBluetoothEnable = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                //활성화 창을 띄워 onActivityResult에서 결과를 처리
+                startActivityForResult(intentBluetoothEnable, BT_REQUEST_ENABLE);
+
+            }
+        }
+    }
+
+    public void bluetoothOff() { //블루투스 비활성화 메소드
+        if (mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.disable();
+        } else {
+            Toast.makeText(getApplicationContext(), "블루투스가 이미 비활성화 되어 있습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //블루투스 활성화 결과를 위한 메소드드
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case BT_REQUEST_ENABLE:
+                if (resultCode == RESULT_OK) { // 블루투스 활성화를 확인을 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "블루투스 활성화", Toast.LENGTH_LONG).show();
+                    listPairedDevices();
+                } else if (resultCode == RESULT_CANCELED) { // 블루투스 활성화를 취소를 클릭하였다면
+                    Toast.makeText(getApplicationContext(), "취소", Toast.LENGTH_LONG).show();
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+    //블루투스 페어링 장치 목록 가져오는 메소드
+    public void listPairedDevices() {
+        if (mBluetoothAdapter.isEnabled()) { //블루투스 활성화 상태인지 확인
+            mPairedDevices = mBluetoothAdapter.getBondedDevices();
+
+            if (mPairedDevices.size() > 0) { //페어링 된 장치가 존재한다면
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("장치 선택"); //알람창에 '장치선택' 타이틀 표시
+
+                //페어링 된 장치명들을 추가
+                mListPairedDevices = new ArrayList<String>();
+                for (BluetoothDevice device : mPairedDevices) {
+                    mListPairedDevices.add(device.getName());
+                    //mListPairedDevices.add(device.getName() + "\n" + device.getAddress());
+                }
+
+
+                //페어링된 장치 수를 얻어와서 각 장치를 누르면 장치 명을 매게변수로 사용하여 connectSelectedDevice 메소드로 전달
+                final CharSequence[] items = mListPairedDevices.toArray(new CharSequence[mListPairedDevices.size()]);
+                mListPairedDevices.toArray(new CharSequence[mListPairedDevices.size()]);
+
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        connectSelectedDevice(items[item].toString());
+                    }
+                });
+
+                //위에서 리스트로 추가된 알람창을 실제로 띄움
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                Toast.makeText(getApplicationContext(), "페어링된 장치가 없습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "블루투스가 비활성화 되어 있습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //블루투스 연결하는 메소드
+    void connectSelectedDevice(String selectedDeviceName) {
+        //페어링 된 모든 장치르 검색하면서 매개변수로 받은 장치 값과 같다면 그 장치의 주소 값을 얻어옴
+        for(BluetoothDevice tempDevice : mPairedDevices) {
+            if (selectedDeviceName.equals(tempDevice.getName())) {
+                mBluetoothDevice = tempDevice;
+                break;
+            }
+        }
+        try {
+            //블루투스 소켓을 가져옴
+            mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(BT_UUID);
+            mBluetoothSocket.connect();//연결
+
+            //데이터는 언제 수신받을 지 몰라 데이터 수신을 위한 쓰레드를 따로 만들어서 처리
+            //쓰레드 생성
+            mThreadConnectedBluetooth = new ConnectedBluetoothThread(mBluetoothSocket);
+            mThreadConnectedBluetooth.start();
+            mBluetoothHandler.obtainMessage(BT_CONNECTING_STATUS, 1, -1).sendToTarget();
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "블루투스 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private class ConnectedBluetoothThread extends Thread {
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+
+        //쓰레드 초기화 과정. getInputStream() 와 getOutputStream() 을 사용하여 소켓을 통한 전송을 처리하는
+        //inputStream 및 OutputStream()을 가져옴
+        public ConnectedBluetoothThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            try {
+                tmpIn = socket.getInputStream();
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 연결 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+        public void run() {
+            byte[] buffer = new byte[1024];
+            int bytes;
+
+            //수신받은 데이터는 언제 들어올 지 모르니 항상 확인 while문 사용
+            while (true) {
+                try {
+                 //   bytes = mmInStream.available();
+                 //   if (bytes != 0) {
+                        SystemClock.sleep(100);
+                        bytes = mmInStream.available();
+                        bytes = mmInStream.read(buffer);
+                        mBluetoothHandler.obtainMessage(BT_MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+                   // }
+                } catch (IOException e) {
+                    break;
+                }
+            }
+        }
+
+        //데이터 전송을 위한 메소드
+        public void write(String str) {
+            byte[] bytes = str.getBytes();
+            try {
+                mmOutStream.write(bytes);
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "데이터 전송 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        //블루투스 소켓을 닫는 메소드
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "소켓 해제 중 오류가 발생했습니다.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
+
+
