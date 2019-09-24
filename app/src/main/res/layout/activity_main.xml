@@ -190,7 +190,7 @@
                             android:layout_marginTop="269.1dp"
                             android:letterSpacing="0.05"
                             android:lineSpacingExtra="2.2sp"
-                            android:text="우리 댕댕이 다리는 튼튼해요 !"
+                            android:text="패드 위에 강아지를 올려주세요 !"
                             android:textAlignment="center"
                             android:includeFontPadding="false"
                             android:fontFamily="@font/nanum_square_regular"

@@ -338,6 +338,13 @@ public class MainActivity extends AppCompatActivity {
             front_left_leg.setVisibility(View.GONE);
             leg_controll_txt.setText(getApplicationContext().getResources().getString(R.string.end_right_txt));
             break;
+          case "5":
+              end_left_leg.setVisibility(View.GONE);
+              end_right_leg.setVisibility(View.GONE);
+              front_left_leg.setVisibility(View.GONE);
+              front_right_leg.setVisibility(View.GONE);
+              leg_controll_txt.setText("우리 댕댕이 다리는 튼튼해요 !");
+              break;
         }
 
     }
