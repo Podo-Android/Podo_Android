@@ -25,6 +25,7 @@ import com.meong.podoandroid.helper.DatabaseHelper;
 import com.meong.podoandroid.R;
 import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.ui.deco.HorizontalSpaceItemDecoration;
+import com.meong.podoandroid.ui.map.MapActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.ui.home.MainActivity;
 
@@ -254,7 +255,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
         txtHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
 
                 finish();
