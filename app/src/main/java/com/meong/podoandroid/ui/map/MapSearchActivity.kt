@@ -93,7 +93,7 @@ class MapSearchActivity : AppCompatActivity() {
         var getLocationList = networkService.getLocationList(header, location)
         getLocationList.enqueue(object : Callback<GetLocationListResponse> {
             override fun onFailure(call: Call<GetLocationListResponse>, t: Throwable) {
-                Log.d(TAG, t!!.message.toString())
+                Log.d(TAG, t.message.toString())
             }
 
             override fun onResponse(call: Call<GetLocationListResponse>, response: Response<GetLocationListResponse>) {
