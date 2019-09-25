@@ -22,20 +22,13 @@
                 android:layout_height="97dp"
                 android:orientation="horizontal"
                 >
-                <ImageView
-                    android:layout_width="28.3dp"
-                    android:layout_height="8.2dp"
-                    android:background="@drawable/back"
-                    android:layout_marginTop="31.7dp"
-                    android:layout_marginLeft="25.5dp"
-                    />
                 <TextView
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="병원위치"
                     android:layout_marginTop="29.1dp"
-                    android:layout_marginLeft="13.4dp"
+                    android:layout_marginLeft="25.5dp"
                     android:fontFamily="@font/nanum_square_regular"
                     android:includeFontPadding="false"
                     />

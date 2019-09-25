@@ -11,14 +11,14 @@
         android:orientation="vertical" >
 
 
-    <!-- 뽀삐 사진 -->
-    <ImageView
+    <!-- 강아지 사진 -->
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_nave_header_main_dog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:paddingTop="16dp"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:paddingVertical="16dp"
+        android:src="@mipmap/kancho" />
 
     <!-- 이름 -->
     <TextView
@@ -30,8 +30,9 @@
         android:layout_marginLeft="28dp"
         android:layout_marginRight="38dp"
         android:background="@drawable/nav_header_dog_name_background"
-        android:paddingVertical="4dp"
+        android:paddingVertical="6dp"
         android:paddingLeft="8dp"
+        android:textStyle="bold"
         android:text="@string/nav_dog_name"
         android:textSize="14.5sp" />
 
