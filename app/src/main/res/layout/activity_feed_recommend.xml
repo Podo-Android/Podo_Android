@@ -23,23 +23,16 @@
         android:layout_height="97dp"
         >
 
-        <ImageView
-            android:id="@+id/feed_recommend_back_icon"
-            android:layout_width="28.2dp"
-            android:layout_height="8.2dp"
-            android:layout_marginLeft="25.5dp"
-            android:layout_marginTop="36.7dp"
-            android:src="@drawable/back_icon"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="사료 추천"
-            android:layout_marginLeft="14.2dp"
+            android:layout_marginLeft="25.5dp"
             android:layout_marginTop="33.6dp"
             android:textColor="#455668"
             android:textSize="16sp"
-            android:layout_toRightOf="@id/feed_recommend_back_icon"
+            android:layout_alignParentLeft="true"
             android:includeFontPadding="false"
             android:fontFamily="@font/nanum_square_regular"/>
 

@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,9 +65,9 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg, arrow_left,arrow_right;
+    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg ;
     TextView leg_controll_txt,today_weight,today_weight_obesity, month_txt, month_aver_txt;
-
+    RelativeLayout arrow_left,arrow_right;
     BluetoothAdapter mBluetoothAdapter;
     Set<BluetoothDevice> mPairedDevices;
     List<String> mListPairedDevices;
@@ -109,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
         sign_start=(ImageView)findViewById(R.id.sign_start);
         sign_center=(ImageView)findViewById(R.id.sign_center);
         sign_end=(ImageView)findViewById(R.id.sign_end);
-        arrow_left=(ImageView)findViewById(R.id.arrow_left);
-        arrow_right=(ImageView)findViewById(R.id.arrow_right);
+        arrow_left=(RelativeLayout) findViewById(R.id.arrow_left);
+        arrow_right=(RelativeLayout)findViewById(R.id.arrow_right);
         front_right_leg=(ImageView)findViewById(R.id.front_right_leg);
         front_left_leg=(ImageView)findViewById(R.id.front_left_leg);
         end_right_leg=(ImageView)findViewById(R.id.end_right_leg);

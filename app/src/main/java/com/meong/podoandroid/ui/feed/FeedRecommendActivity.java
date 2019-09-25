@@ -43,7 +43,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
     DatabaseHelper dbhelper;
     SQLiteDatabase database;
     DrawerLayout drawer;
-    ImageView imgMenu, backButton;
+    ImageView imgMenu;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -227,14 +227,6 @@ public class FeedRecommendActivity extends AppCompatActivity {
             }
         });
 
-        //뒤로가기 버튼 눌렀을 때
-        backButton=(ImageView)findViewById(R.id.feed_recommend_back_icon);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     private void onDrawerItemClickListener() {
