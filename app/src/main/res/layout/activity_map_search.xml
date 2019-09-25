@@ -35,10 +35,9 @@
         >
         <ImageView
             android:id="@+id/img_map_search_act_back"
-            android:paddingVertical="8dp"
             android:layout_width="28.3dp"
             android:layout_height="8.2dp"
-            android:src="@drawable/back"
+            android:background="@drawable/back"
             android:layout_marginTop="31.7dp"
             android:layout_marginLeft="25.5dp"
             />
@@ -46,7 +45,7 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="병원위치"
+            android:text="병원위치 검색"
             android:layout_marginTop="29.1dp"
             android:layout_marginLeft="13.4dp"
             android:fontFamily="@font/nanum_square_regular"
@@ -128,14 +127,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
-    <include
-        android:id="@+id/nav_view"
-        layout="@layout/nav_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:fitsSystemWindows="true"
-        />
+        <include
+            android:id="@+id/nav_view"
+            layout="@layout/nav_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:fitsSystemWindows="true"
+            />
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </RelativeLayout>

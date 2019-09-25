@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.meong.podoandroid.data.StoreItem;
 import com.meong.podoandroid.helper.MapDBHelper;
+import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
 import com.meong.podoandroid.ui.home.MainActivity;
 import com.meong.podoandroid.R;
 
@@ -350,6 +351,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 finish();
             }
         });
+
+        // 병원 위치 눌렸을 때
+        TextView txtMap = (TextView) findViewById(R.id.txt_nav_main_hospital);
+        txtMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+        // 사료 추천 눌렸을 때
+        TextView txtRecommend = (TextView) findViewById(R.id.txt_nav_main_recommend);
+        txtRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FeedRecommendActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+
+
 
     }
 
