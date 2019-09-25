@@ -202,11 +202,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                    // mTvReceiveData.setText(readMessage);
                     //String Message= String.valueOf(readMessage.charAt(0));
+                    Log.d("bt2",readMessage);
                     int i=readMessage.indexOf("/");
                     String weight=readMessage.substring(0,i);
                     String leg= String.valueOf(readMessage.charAt(i+1));
-
-                   Toast.makeText(getApplicationContext(),readMessage, Toast.LENGTH_LONG).show();
+/*
+                   Toast.makeText(getApplicationContext(),readMessage, Toast.LENGTH_LONG).show();*/
                     //new Thread(new Runnable() {
                       //  @Override
                       //  public void run() {
@@ -363,20 +364,22 @@ public class MainActivity extends AppCompatActivity {
         cursor.moveToLast();
         today_weight.setText(cursor.getString(0)+"kg");
         int weight = Integer.parseInt(cursor.getString(0));*/
-        today_weight.setText(w);
-        Double weight=Double.parseDouble(w);
 
-        if(weight<4) {
-            today_weight_obesity.setText("저체중");
+        try {
+            today_weight.setText(w);
+            Float weight = Float.parseFloat(w);
+
+            if (weight < 4) {
+                today_weight_obesity.setText("저체중");
+            } else if (weight >= 4 && weight < 6) {
+                today_weight_obesity.setText("보통");
+
+            } else {
+                today_weight_obesity.setText("과체중");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        else if(weight>=4 && weight<6) {
-            today_weight_obesity.setText("보통");
-
-        } else{
-            today_weight_obesity.setText("과체중");
-        }
-
-
     }
 
     public void DrawLineChart() {

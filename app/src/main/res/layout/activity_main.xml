@@ -254,10 +254,11 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:maxLines="1"
                                 android:id="@+id/today_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="51dp"
+                                android:layout_gravity="center"
                                 android:layout_marginTop="25.5dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
