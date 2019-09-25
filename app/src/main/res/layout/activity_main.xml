@@ -28,25 +28,6 @@
                 android:layout_marginLeft="33.5dp"
                 android:layout_marginTop="37.8dp"
                 android:background="@drawable/main_logo_text" />
-                <Switch
-                    android:id="@+id/bluetooth_on_off_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:switchMinWidth="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="33.5dp"
-                    android:layout_alignParentTop="true"
-                    android:track="@drawable/switch_selector"
-                    android:thumb="@drawable/switch_circle"
-                    android:thumbTextPadding="10dp"
-                    android:fontFamily="@font/nanum_square_regular"
-                    android:includeFontPadding="false"
-                    android:textColor="#64646d"
-                    android:textSize="11.8sp"
-                    android:text="Bluetooth: "
-                    android:checked="true"
-                    android:textOff="OFF"
-                    android:textOn="ON"/>
 
 
 
@@ -76,6 +57,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingBottom="15dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -103,6 +85,25 @@
                             android:text="다리 이상 여부"
                             android:textColor="#64646d"
                             android:textSize="11.8sp" />
+
+                        <Switch
+                            android:id="@+id/bluetooth_on_off_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="39dp"
+                            android:layout_marginLeft="170dp"
+                            android:checked="true"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:includeFontPadding="false"
+                            android:switchMinWidth="10dp"
+                            android:text="Bluetooth: "
+                            android:textColor="#64646d"
+                            android:textOff="OFF"
+                            android:textOn="ON"
+                            android:textSize="11.8sp"
+                            android:thumb="@drawable/switch_circle"
+                            android:thumbTextPadding="10dp"
+                            android:track="@drawable/switch_selector" />
 
                     </LinearLayout>
 
@@ -253,16 +254,17 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:maxLines="1"
                                 android:id="@+id/today_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="53dp"
+                                android:layout_gravity="center"
                                 android:layout_marginTop="25.5dp"
                                 android:fontFamily="@font/nanum_square_regular"
                                 android:gravity="center_horizontal"
                                 android:letterSpacing="0.05"
                                 android:lineSpacingExtra="3sp"
-                                android:text="4.1 kg"
+                                android:text="측정전"
                                 android:textColor="#606060"
                                 android:textSize="15sp" />
 
@@ -303,7 +305,7 @@
                                 android:gravity="center_horizontal"
                                 android:letterSpacing="0.05"
                                 android:lineSpacingExtra="3sp"
-                                android:text="정상"
+                                android:text=""
                                 android:textColor="#606060"
                                 android:textSize="15sp" />
                         </LinearLayout>
@@ -338,10 +340,12 @@
 
                     <RelativeLayout
                         android:layout_width="320dp"
-                        android:layout_height="137dp"
+                        android:layout_height="155dp"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:layout_marginTop="22.3dp"
+                        android:paddingLeft="5dp"
+                        android:paddingBottom="8dp"
                         android:background="@drawable/main_seven_background"
                         >
 
@@ -387,19 +391,27 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal">
 
-                            <ImageView
+                            <RelativeLayout
                                 android:id="@+id/arrow_left"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="150dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_gravity="center_horizontal">
+
+                            <ImageView
+                                android:layout_margin="4dp"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
-                                android:layout_marginLeft="150dp"
                                 android:background="@drawable/main_leftarrow"
-                                android:layout_marginTop="2dp">
+                                >
 
                             </ImageView>
+                            </RelativeLayout>
                             <TextView
                                 android:id="@+id/month_txt"
                                 android:layout_width="wrap_content"
@@ -408,15 +420,22 @@
                                 android:text="9월">
 
                             </TextView>
-                            <ImageView
+
+                            <RelativeLayout
                                 android:id="@+id/arrow_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="2dp">
+                            <ImageView
+                                android:layout_margin="4dp"
                                 android:layout_width="12dp"
                                 android:layout_height="12dp"
-                                android:layout_marginLeft="30dp"
                                 android:background="@drawable/main_rightarrow"
-                                android:layout_marginTop="2dp">
+                                >
 
                             </ImageView>
+                            </RelativeLayout>
 
                         </LinearLayout>
 

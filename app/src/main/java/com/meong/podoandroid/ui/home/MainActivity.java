@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.helper.DatabaseHelper;
 import com.meong.podoandroid.helper.DogDBHelper;
 import com.meong.podoandroid.ui.feed.FeedRecommendActivity;
+import com.meong.podoandroid.ui.map.MapActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 
 
@@ -63,9 +65,9 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg, arrow_left,arrow_right;
+    ImageView front_right_leg, front_left_leg, end_right_leg,end_left_leg ;
     TextView leg_controll_txt,today_weight,today_weight_obesity, month_txt, month_aver_txt;
-
+    RelativeLayout arrow_left,arrow_right;
     BluetoothAdapter mBluetoothAdapter;
     Set<BluetoothDevice> mPairedDevices;
     List<String> mListPairedDevices;
@@ -108,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
         sign_start=(ImageView)findViewById(R.id.sign_start);
         sign_center=(ImageView)findViewById(R.id.sign_center);
         sign_end=(ImageView)findViewById(R.id.sign_end);
-        arrow_left=(ImageView)findViewById(R.id.arrow_left);
-        arrow_right=(ImageView)findViewById(R.id.arrow_right);
+        arrow_left=(RelativeLayout) findViewById(R.id.arrow_left);
+        arrow_right=(RelativeLayout)findViewById(R.id.arrow_right);
         front_right_leg=(ImageView)findViewById(R.id.front_right_leg);
         front_left_leg=(ImageView)findViewById(R.id.front_left_leg);
         end_right_leg=(ImageView)findViewById(R.id.end_right_leg);
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 //        insertLegData("dog_leg","10","20","15","5");
 //        leg_compare("dog_leg");
 
-        insertWeightData("dog_weight","10","2019-09-01");
+        /*insertWeightData("dog_weight","10","2019-09-01");
         insertWeightData("dog_weight","10","2019-09-11");
         insertWeightData("dog_weight","10","2019-09-15");
         insertWeightData("dog_weight","10","2019-09-13");
@@ -159,12 +161,12 @@ public class MainActivity extends AppCompatActivity {
         insertWeightData("dog_weight","30","2019-09-19");
         insertWeightData("dog_weight","40","2019-09-20");
         insertWeightData("dog_weight","15","2019-09-21");
-        insertWeightData("dog_weight","4","2019-09-22");
+        insertWeightData("dog_weight","4","2019-09-22");*/
         DrawLineChart();
 
        //delete_table("dog_weight");
 
-        today_weight("dog_weight");
+     //   today_weight("dog_weight");
 
         insertMonthWeightData("9","4");
         insertMonthWeightData("8","3");
@@ -199,14 +201,20 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                    // mTvReceiveData.setText(readMessage);
-                    String Message= String.valueOf(readMessage.charAt(0));
-
-                  //  Toast.makeText(getApplicationContext(),Message, Toast.LENGTH_LONG).show();
+                    //String Message= String.valueOf(readMessage.charAt(0));
+                    Log.d("bt2",readMessage);
+                    int i=readMessage.indexOf("/");
+                    String weight=readMessage.substring(0,i);
+                    String leg= String.valueOf(readMessage.charAt(i+1));
+/*
+                   Toast.makeText(getApplicationContext(),readMessage, Toast.LENGTH_LONG).show();*/
                     //new Thread(new Runnable() {
                       //  @Override
                       //  public void run() {
-                            Log.d("bt",Message);
-                            leg_compare(Message);
+                            Log.d("bt",leg);
+                            Log.d("bt",weight);
+                            today_weight(weight);
+                            leg_compare(leg);
 
                     //    }
                 //    }).start();
@@ -234,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         txtHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
 
                 finish();
@@ -349,25 +357,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void today_weight(String tableName) {
-        String sql_select = "select weight from "+tableName;
+    public void today_weight(String w) {
+        /*String sql_select = "select weight from "+tableName;
         Cursor cursor=database.rawQuery(sql_select,null );
 
         cursor.moveToLast();
         today_weight.setText(cursor.getString(0)+"kg");
-        int weight = Integer.parseInt(cursor.getString(0));
+        int weight = Integer.parseInt(cursor.getString(0));*/
 
-        if(weight<4) {
-            today_weight_obesity.setText("저체중");
+        try {
+            today_weight.setText(w);
+            Float weight = Float.parseFloat(w);
+
+            if (weight < 4) {
+                today_weight_obesity.setText("저체중");
+            } else if (weight >= 4 && weight < 6) {
+                today_weight_obesity.setText("보통");
+
+            } else {
+                today_weight_obesity.setText("과체중");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
-        else if(weight>=4 && weight<6) {
-            today_weight_obesity.setText("보통");
-
-        } else{
-            today_weight_obesity.setText("과체중");
-        }
-
-
     }
 
     public void DrawLineChart() {
@@ -378,17 +390,17 @@ public class MainActivity extends AppCompatActivity {
 
 
         List<Entry> values = new ArrayList<>();
-        values.add(new Entry(16,4));
-        values.add(new Entry(17,2));
-        values.add(new Entry(18,7));
-        values.add(new Entry(19,6));
-        values.add(new Entry(20,5));
-        values.add(new Entry(21,7));
-        values.add(new Entry(22,2));
+        values.add(new Entry(16,3.0f));
+        values.add(new Entry(17,3.1f));
+        values.add(new Entry(18,3.5f));
+        values.add(new Entry(19,3.6f));
+        values.add(new Entry(20,3.4f));
+        values.add(new Entry(21,3.8f));
+        values.add(new Entry(22,3.7f));
 
         LineDataSet lineDataSet = new LineDataSet(values,"weight"); //LineDataSet 선언
         lineDataSet.setColor(getApplicationContext().getResources().getColor(R.color.line_circle)); //LineChart에서 Line Color 설정
-        lineDataSet.setCircleColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // LineChart에서 Line Circle Color 설정
+        lineDataSet.setCircleColor(getApplicationContext().getResources().getColor(R.color.buttonpress)); // LineChart에서 Line Circle Color 설정
 
         LineData lineData = new LineData(); //LineDataSet을 담는 그릇 여러개의 라인 데이터가 들어갈 수 있습니다.
         lineData.addDataSet(lineDataSet);
@@ -397,18 +409,21 @@ public class MainActivity extends AppCompatActivity {
         lineData.setValueTextSize(9);
 
         XAxis xAxis = lineChart.getXAxis(); // x 축 설정
-        final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+     //   final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); //x 축 표시에 대한 위치 설정
 
             //X축의 데이터를 제 가공함. new ChartXValueFormatter은 Custom한 소스
         xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
         xAxis.setTextColor(getApplicationContext().getResources().getColor(R.color.colorTextGray)); // X축 텍스트컬러설정
         xAxis.setGridColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // X축 줄의 컬러 설정
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+      //  xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
 
         YAxis yAxisLeft = lineChart.getAxisLeft(); //Y축의 왼쪽면 설정
-        yAxisLeft.setTextColor(getApplicationContext().getResources().getColor(R.color.colorTextGray)); //Y축 텍스트 컬러 설정
-        yAxisLeft.setGridColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // Y축 줄의 컬러 설정
+        yAxisLeft.setDrawLabels(false);
+        yAxisLeft.setDrawAxisLine(false);
+        yAxisLeft.setDrawGridLines(false);
+//        yAxisLeft.setTextColor(getApplicationContext().getResources().getColor(R.color.colorTextGray)); //Y축 텍스트 컬러 설정
+//        yAxisLeft.setGridColor(getApplicationContext().getResources().getColor(R.color.line_circle)); // Y축 줄의 컬러 설정
 
         YAxis yAxisRight = lineChart.getAxisRight(); //Y축의 오른쪽면 설정
         yAxisRight.setDrawLabels(false);
@@ -447,8 +462,8 @@ public class MainActivity extends AppCompatActivity {
 //            xAxis.setLabelCount(7, true); //X축의 데이터를 최대 몇개 까지 나타낼지에 대한 설정 5개 force가 true 이면 반드시 보여줌
 //
 //
-          /*  xAxis.setValueFormatter(new IAxisValueFormatter() {
-                final String[] labels=new String[]{"MON","TUE","WED","THU","FRI","SAT","SUN"};
+            xAxis.setValueFormatter(new IAxisValueFormatter() {
+                final String[] labels=new String[]{"SAT","SUN","MON","TUE","WED","THU","FRI"};
                 @Override
                 public String getFormattedValue(float value, AxisBase axis) {
 
@@ -456,7 +471,6 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-*/
 
 
         }

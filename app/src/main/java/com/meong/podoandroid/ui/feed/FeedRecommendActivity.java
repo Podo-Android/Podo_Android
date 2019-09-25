@@ -25,6 +25,7 @@ import com.meong.podoandroid.helper.DatabaseHelper;
 import com.meong.podoandroid.R;
 import com.meong.podoandroid.data.FeedData;
 import com.meong.podoandroid.ui.deco.HorizontalSpaceItemDecoration;
+import com.meong.podoandroid.ui.map.MapActivity;
 import com.meong.podoandroid.ui.map.MapSearchActivity;
 import com.meong.podoandroid.ui.home.MainActivity;
 
@@ -42,7 +43,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
     DatabaseHelper dbhelper;
     SQLiteDatabase database;
     DrawerLayout drawer;
-    ImageView imgMenu, backButton;
+    ImageView imgMenu;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -226,14 +227,6 @@ public class FeedRecommendActivity extends AppCompatActivity {
             }
         });
 
-        //뒤로가기 버튼 눌렀을 때
-        backButton=(ImageView)findViewById(R.id.feed_recommend_back_icon);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     private void onDrawerItemClickListener() {
@@ -254,7 +247,7 @@ public class FeedRecommendActivity extends AppCompatActivity {
         txtHospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(intent);
 
                 finish();
