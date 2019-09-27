@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        //bluetooth switch listener
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -191,34 +192,39 @@ public class MainActivity extends AppCompatActivity {
 
         //블루투스 핸들러로 블루투스 연결 뒤 수신된 데이터를 읽어와 ReceiveData 텍스트 뷰에 표시
         mBluetoothHandler = new Handler(){
-            public void handleMessage(android.os.Message msg){
-                if(msg.what == BT_MESSAGE_READ){
-                    Log.d("bt","블루투스 연결됨");
-                     readMessage = null;
-                    try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                   // mTvReceiveData.setText(readMessage);
-                    //String Message= String.valueOf(readMessage.charAt(0));
-                    Log.d("bt2",readMessage);
-                    int i=readMessage.indexOf("/");
-                    String weight=readMessage.substring(0,i);
-                    String leg= String.valueOf(readMessage.charAt(i+1));
+            public void handleMessage(android.os.Message msg) {
+
+                try {
+                    if (msg.what == BT_MESSAGE_READ) {
+                        Log.d("bt", "블루투스 연결됨");
+                        readMessage = null;
+                        try {
+                            readMessage = new String((byte[]) msg.obj, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        // mTvReceiveData.setText(readMessage);
+                        //String Message= String.valueOf(readMessage.charAt(0));
+                        Log.d("bt2", readMessage);
+                        int i = readMessage.indexOf("/");
+                        String weight = readMessage.substring(0, i);
+                        String leg = String.valueOf(readMessage.charAt(i + 1));
 /*
                    Toast.makeText(getApplicationContext(),readMessage, Toast.LENGTH_LONG).show();*/
-                    //new Thread(new Runnable() {
-                      //  @Override
-                      //  public void run() {
-                            Log.d("bt",leg);
-                            Log.d("bt",weight);
-                            today_weight(weight);
-                            leg_compare(leg);
+                        //new Thread(new Runnable() {
+                        //  @Override
+                        //  public void run() {
+                        Log.d("bt", leg);
+                        Log.d("bt", weight);
+                        today_weight(weight);
+                        leg_compare(leg);
 
-                    //    }
-                //    }).start();
+                        //    }
+                        //    }).start();
 
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         };
@@ -292,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
 
     }*/
 
+   //월별 평균 몸무게 넣는 메소드
     public void insertWeightData(String tableName, String weight, String date) {
         Log.d("msg2","insert weight data");
 
@@ -307,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 }
     }
 
+    //안 좋은 다리 표시해주는 함수
     public void leg_compare(String leg_name) {
       /*  String sql_select = "select front_left, front_right, end_left, end_right from "+tableName;
         Cursor cursor=database.rawQuery(sql_select,null );
@@ -357,6 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //오늘의 몸무게 비교
     public void today_weight(String w) {
         /*String sql_select = "select weight from "+tableName;
         Cursor cursor=database.rawQuery(sql_select,null );
@@ -382,6 +391,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //graph draw
     public void DrawLineChart() {
         lineChart.invalidate();
         lineChart.clear();
@@ -476,6 +486,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
 //    public class MyXAxisValueFormatter implements IAxisValueFormatter{
 //        private String[] mValues;
 //
@@ -491,6 +502,7 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
+    //월 up down 메소드
     public void up_down_month() {
 
 
@@ -540,6 +552,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //월 평균 몸무게 insert
     public void insertMonthWeightData(String month, String weight_aver) {
 
         if(database!= null) {
@@ -551,6 +564,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //월 평균 몸무게 비교
     public void month_aver_compare(String tableName, String mon) {
 
 
@@ -584,12 +598,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    //table 제거
     public void delete_table(String tableName) {
         String sql_select = "delete from "+tableName;
         database.execSQL(sql_select);
 
     }
 
+    //graph label custom하게 만들어주는 메소드
     public class IndexAxisValueFormatter implements IAxisValueFormatter {
 
         private String[] mValues= new String[] {};
@@ -623,6 +639,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //bluetooth on 메소드
     public void bluetoothOn() {
         if (mBluetoothAdapter == null) {
             Toast.makeText(getApplicationContext(), "블루투스를 지원하지 않는 기기입니다.", Toast.LENGTH_LONG).show();
@@ -640,7 +657,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void bluetoothOff() { //블루투스 비활성화 메소드
+    //블루투스 비활성화 메소드
+    public void bluetoothOff() {
         if (mBluetoothAdapter.isEnabled()) {
             mBluetoothAdapter.disable();
         } else {
