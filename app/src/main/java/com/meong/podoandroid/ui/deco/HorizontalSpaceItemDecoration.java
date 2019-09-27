@@ -23,6 +23,7 @@ public class HorizontalSpaceItemDecoration extends RecyclerView.ItemDecoration {
         this.first_left_space=first_left_space;
     }
 
+    //리사이클러뷰 간격
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         outRect.left=space/2;

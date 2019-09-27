@@ -164,7 +164,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             locationNew.setLongitude(items.get(i).getLongtitude());
 
             distance = locationNow.distanceTo(locationNew) / 1000; //in km
-            if (distance < 1) { //1 km 내의 마커만 띄웁니다.
+            if (distance < 1.3) { //1 km 내의 마커만 띄웁니다.
 
                 LatLng marker = new LatLng(items.get(i).getLatitude(), items.get(i).getLongtitude());
 
@@ -231,7 +231,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         CircleOptions circleOptions = new CircleOptions();
 
         circleOptions.center(latlng)
-                .radius(1000.0)
+                .radius(1300.0)
                 .strokeColor(getResources().getColor(R.color.point_pink))
                 .fillColor(Color.parseColor("#4de1b2a3"))
                 .strokeWidth(1);

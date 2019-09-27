@@ -53,6 +53,7 @@ public class FeedRecommendAdapter extends RecyclerView.Adapter<FeedRecommendAdap
         return holder;
     }
 
+    //뷰랑 데이타 연결
     @Override
     public void onBindViewHolder(@NonNull FeedRecommendAdapter.ViewHolder holder, final int position) {
         dbhelper= new DatabaseHelper(context);
@@ -100,6 +101,7 @@ public class FeedRecommendAdapter extends RecyclerView.Adapter<FeedRecommendAdap
         private TextView purchase_btn;
 
 
+        //holder에 뷰 등록하는 메소드
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
