@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">PodoAndroid</string>
+    <string name="app_name">Podo</string>
+    <string name="text1">hi</string>
+    <string name="nav_dog_name">이름 : 칸쵸</string>
+    <string name="nav_hospital_location">병원 위치</string>
+    <string name="nav_recommend">사료 추천</string>
+    <string name="nav_home">홈</string>
+    <string name="nav_logout">Logout</string>
+    <string name="front_left_txt">왼쪽 앞다리가 아픈거 같아요\n검진을 받아봐야 할 것 같아요</string>
+    <string name="front_right_txt">오른쪽 앞다리가 아픈거 같아요\n검진을 받아봐야 할 것 같아요</string>
+    <string name="end_left_txt">왼쪽 뒷다리가 아픈거 같아요\n검진을 받아봐야 할 것 같아요</string>
+    <string name="end_right_txt">오른쪽 뒷다리가 아픈거 같아요\n검진을 받아봐야 할 것 같아요</string>
 </resources>

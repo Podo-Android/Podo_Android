@@ -1,18 +1,522 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_main_act"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="83dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="33.5dp"
+                android:layout_marginTop="37.8dp"
+                android:background="@drawable/main_logo_text" />
+
+
+
+            <ImageView
+                android:id="@+id/img_main_act_menu"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/ic_hamburger" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/img_main_act_menu"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/background_border_sky">
+                <!-- 하늘색 배경 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="다리 이상 여부"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+
+                        <Switch
+                            android:id="@+id/bluetooth_on_off_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="39dp"
+                            android:layout_marginLeft="170dp"
+                            android:checked="true"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:includeFontPadding="false"
+                            android:switchMinWidth="10dp"
+                            android:text="Bluetooth: "
+                            android:textColor="#64646d"
+                            android:textOff="OFF"
+                            android:textOn="ON"
+                            android:textSize="11.8sp"
+                            android:thumb="@drawable/switch_circle"
+                            android:thumbTextPadding="10dp"
+                            android:track="@drawable/switch_selector" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="298dp"
+                            android:layout_height="331dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="32dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/main_image_background" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="62dp">
+
+                            <ImageView
+                                android:id="@+id/imageView2"
+                                android:layout_width="180dp"
+                                android:layout_height="146dp"
+                                android:background="@drawable/main_dog"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/front_left_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="60dp"
+                                android:layout_marginLeft="60dp"
+                                android:layout_marginBottom="29dp"
+                                android:src="@drawable/leg_sign"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:visibility="gone"
+                                app:layout_constraintStart_toStartOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/front_right_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginStart="43dp"
+                                android:layout_marginLeft="43dp"
+                                android:layout_marginBottom="22dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/end_left_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginEnd="12dp"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginBottom="29dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+
+                            <ImageView
+                                android:id="@+id/end_right_leg"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_marginEnd="33dp"
+                                android:layout_marginRight="33dp"
+                                android:layout_marginBottom="19dp"
+                                android:src="@drawable/leg_sign"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="@+id/imageView2" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/leg_controll_txt"
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="269.1dp"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.2sp"
+                            android:text="패드 위에 강아지를 올려주세요 !"
+                            android:textAlignment="center"
+                            android:includeFontPadding="false"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:textColor="#606060"
+                            android:textSize="13sp" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="오늘의 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="282dp"
+                        android:layout_height="136dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="22.3dp"
+                        android:background="@drawable/main_today_background"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="55dp"
+                                android:layout_marginTop="25.4dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="3sp"
+                                android:text="체중"
+                                android:textColor="#a3866f"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:maxLines="1"
+                                android:id="@+id/today_weight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="25.5dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="3sp"
+                                android:text="측정전"
+                                android:textColor="#606060"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="86dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/main_slash" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="25.4dp"
+                                android:layout_marginRight="10dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="2.4sp"
+                                android:text="비만도"
+                                android:textColor="#a3866f"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/today_weight_obesity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="25.5dp"
+                                android:layout_marginRight="8dp"
+                                android:fontFamily="@font/nanum_square_regular"
+                                android:gravity="center_horizontal"
+                                android:letterSpacing="0.05"
+                                android:lineSpacingExtra="3sp"
+                                android:text=""
+                                android:textColor="#606060"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="최근 일주일 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="320dp"
+                        android:layout_height="155dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="22.3dp"
+                        android:paddingLeft="5dp"
+                        android:paddingBottom="8dp"
+                        android:background="@drawable/main_seven_background"
+                        >
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/line_chart"
+                            android:layout_width="300dp"
+                            android:layout_height="130dp"
+
+                            >
+
+                        </com.github.mikephil.charting.charts.LineChart>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="33.6dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/ic_part" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5.4dp"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/nanum_square_regular"
+                            android:gravity="center_horizontal"
+                            android:letterSpacing="0.05"
+                            android:lineSpacingExtra="2.4sp"
+                            android:text="월 평균 몸무게"
+                            android:textColor="#64646d"
+                            android:textSize="11.8sp" />
+                    </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <RelativeLayout
+                                android:id="@+id/arrow_left"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="150dp"
+                                android:layout_marginTop="2dp"
+                                android:layout_gravity="center_horizontal">
+
+                            <ImageView
+                                android:layout_margin="4dp"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:background="@drawable/main_leftarrow"
+                                >
+
+                            </ImageView>
+                            </RelativeLayout>
+                            <TextView
+                                android:id="@+id/month_txt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:text="9월">
+
+                            </TextView>
+
+                            <RelativeLayout
+                                android:id="@+id/arrow_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginTop="2dp">
+                            <ImageView
+                                android:layout_margin="4dp"
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:background="@drawable/main_rightarrow"
+                                >
+
+                            </ImageView>
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/month_aver_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="4kg"
+                            android:textSize="40sp"
+                            android:layout_marginTop="22.3dp">
+
+                        </TextView>
+                    <FrameLayout
+                        android:layout_width="310dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal">
+                    <RelativeLayout
+                        android:layout_width="304dp"
+                        android:layout_height="15dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/main_weightbar">
+                    </RelativeLayout>
+
+                        <ImageView
+                            android:id="@+id/sign_center"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            android:background="@drawable/sickpoint"/>
+                        <ImageView
+                            android:id="@+id/sign_start"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="start"
+                            android:layout_marginLeft="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/sickpoint"/>
+                        <ImageView
+                            android:id="@+id/sign_end"
+                            android:layout_width="26dp"
+                            android:layout_height="26dp"
+                            android:layout_gravity="end"
+                            android:layout_marginRight="3dp"
+                            android:visibility="gone"
+                            android:background="@drawable/sickpoint"/>
+
+
+                    </FrameLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="저체중"
+                            android:layout_marginLeft="45dp"/>
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="정상"
+                        android:layout_marginLeft="110dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="과체중"
+                            android:layout_marginLeft="110dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+        </RelativeLayout>
+        <include
+                android:id="@+id/nav_view"
+                layout="@layout/nav_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:fitsSystemWindows="true" />
+        </androidx.drawerlayout.widget.DrawerLayout>
+</RelativeLayout>

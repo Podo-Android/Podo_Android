@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <androidx.cardview.widget.CardView
+        android:layout_width="184.5dp"
+        android:layout_height="420.5dp"
+        android:background="@drawable/feed_card_round"
+        app:cardCornerRadius="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_rv_item_archive_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#dee9ff"
+
+
+            >
+
+            <ImageView
+                android:id="@+id/img_rv_item_feed_recommend"
+                android:layout_width="151dp"
+                android:layout_height="151dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="17dp"
+                android:layout_marginRight="17dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/feed_image1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txt_rv_item_feed_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nanum_square_extra_bold"
+                android:lineSpacingExtra="7sp"
+                android:textColor="#455668"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="DrDOG" />
+
+            <TextView
+                android:id="@+id/txt_rv_item_feed_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="21dp"
+                android:layout_marginRight="63dp"
+                android:fontFamily="@font/nanum_square_light"
+                android:includeFontPadding="false"
+                android:text="콜라겐이 풍부하여 피부 모질 세포막을 이루는 필수 물질 섭취 시 피부 노화 방지 및 재생 효과 모근 강화로 털 빠짐 예방"
+                android:textColor="#455668"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_rv_item_feed_recommend" />
+
+
+            <TextView
+                android:id="@+id/purchase_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="20dp"
+                android:fontFamily="@font/nanum_square_bold"
+                android:includeFontPadding="false"
+                android:text="구매하러 가기"
+                android:textSize="11sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

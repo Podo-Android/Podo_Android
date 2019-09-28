@@ -1,11 +1,47 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="StatusBar" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@color/colorWhite</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
+
+    <!-- 텍스트 스타일 -->
+    <style name="regularNavyStyle">
+        <item name="android:textColor">@color/colorNavy</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_regular</item>
+    </style>
+
+    <style name="lightNavyStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorNavy</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_light</item>
+    </style>
+
+
+    <style name="regularWhiteStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_regular</item>
+    </style>
+
+
+    <style name="regularGrayStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorTextGray</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">@font/nanum_square_regular</item>
+    </style>
+
 
 </resources>
